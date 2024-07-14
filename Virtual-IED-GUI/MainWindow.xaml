@@ -3,10 +3,90 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Virtual_IED_GUI.Views"
         xmlns:local="clr-namespace:Virtual_IED_GUI"
+        xmlns:resx="clr-namespace:Virtual_IED_GUI.Properties"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None" AllowsTransparency="True"
+        Title="MainWindow" Height="720" Width="1280" Background="Transparent"
+        >
 
-    </Grid>
+    <Window.Resources>
+        <SolidColorBrush x:Key="BeforeColor" Color="Transparent"/>
+        <SolidColorBrush x:Key="AfterColor" Color="#012239"/>
+        <SolidColorBrush x:Key="HoverColor" Color="#405873"/>
+    </Window.Resources>
+
+    <Border CornerRadius="12" Background="#012239" MouseDown="Border_MouseDown">
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+            <Grid>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="20"/>
+                </Grid.RowDefinitions>
+
+                <!-- Home Button -->
+                <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="1" Background="#314556" CornerRadius="12 0 0 0">
+                    <Grid Margin="0 20 0 20"
+                          VerticalAlignment="Top"
+                          HorizontalAlignment="Center">
+                        <Button  Content="Home" Height="80" Background="Transparent" BorderThickness="0" FontSize="18" Foreground="Lavender"/>
+                    </Grid>
+                </Border>
+
+                <!-- Left Menu -->
+                <Border Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" Background="#314556" CornerRadius="0 0 0 12">
+                    
+                    <StackPanel Margin="0 20 0 0">
+                        <RadioButton  Content="General" 
+                                      Style="{StaticResource NavegationMenuTheme}"
+                                      Tag="{StaticResource config_icon}"/>
+                        <RadioButton  Content="Protection Functions" 
+                                      Style="{StaticResource NavegationMenuTheme}"
+                                      Tag="{StaticResource protection_icon}"/>
+                        <RadioButton  Content="IEC 61850" 
+                                      Style="{StaticResource NavegationMenuTheme}"
+                                      Tag="{StaticResource iec61850_icon}"/>
+                        <RadioButton  Content="IHM" Style="{StaticResource NavegationMenuTheme}"
+                                      Tag="{StaticResource ihm_icon}"/>
+
+                    </StackPanel>
+                    
+                    
+                    
+                </Border>
+                
+                <!-- Top Buttons -->
+                <Border Grid.Column="1" Grid.Row="0" Grid.RowSpan="1" Background="Transparent" CornerRadius="0 0 12 0" VerticalAlignment="Top">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0 0 5 0">
+                        <StackPanel.Resources>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="Foreground" Value="White"/>
+                                <Setter Property="FontSize" Value="16"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
+                                <Setter Property="Width" Value="30"/>
+                                <Setter Property="Height" Value="30"/>
+                                <Setter Property="Margin" Value="2 0 5 0"/>
+                            </Style>
+                        </StackPanel.Resources>
+                        <Button Content="-" Click="Minimize_Click"/>
+                        <Button Content="[]" Click="Maximize_Click"/>
+                        <Button Content="X" Click="Close_Click"/>
+                    </StackPanel>
+                </Border>
+
+
+            </Grid>
+        </ScrollViewer>
+    </Border>
 </Window>
