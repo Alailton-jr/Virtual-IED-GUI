@@ -1,0 +1,184 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="MaximizeButtonTheme" TargetType="CheckBox">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Grid>
+                            <Rectangle Fill="Transparent"
+        Width="24"
+        Height="24"
+        Stroke="Lavender"
+                                       StrokeThickness="2"
+        x:Name="rect"
+        StrokeLineJoin ="Round"/>
+
+                            <Path x:Name="line1False"
+      Data="M 4,20 L 10,14"
+      Stroke="Lavender"
+      StrokeThickness="3"
+      StrokeStartLineCap="Round"
+      StrokeEndLineCap="Round"
+      Visibility="Visible"
+      />
+                            <Path x:Name="line1True"
+      Data="M 3,21 L 9,15"
+      Stroke="Lavender"
+      StrokeThickness="2"
+      StrokeStartLineCap="Round"
+      StrokeEndLineCap="Round"
+      Visibility="Hidden"
+      />
+
+                            <Polygon 
+    x:Name="tipFalse1"
+    Points="3,21 3,13 11,21"
+    Fill="Lavender"
+    Stroke="Lavender"
+    Visibility="Visible"/>
+
+                            <Polygon Points="10,14 2,14 10,22"
+         Fill="Lavender"
+         x:Name="tipTrue1"
+         Stroke="Lavender"
+         Visibility="Hidden"/>
+
+
+                            <Path x:Name="line2False"
+      Data="M 20,4 L 14,10"
+      Stroke="Lavender"
+      StrokeThickness="3"
+      StrokeStartLineCap="Round"
+      StrokeEndLineCap="Round"
+      Visibility="Visible"
+      />
+                            <Polygon Points="21,3 13,3 21,11"
+         Fill="Lavender"
+         x:Name="tipFalse2"
+         Stroke="Lavender"
+         Visibility="Visible"/>
+
+                            <Path x:Name="line2True"
+      Data="M 21,3 L 15,9"
+      Stroke="Lavender"
+      StrokeThickness="2"
+      StrokeStartLineCap="Round"
+      StrokeEndLineCap="Round"
+      Visibility="Hidden"
+      />
+
+                            <Polygon 
+    x:Name="tipTrue2"
+    Points="14,10 14,2 22,10"
+    Fill="Lavender"
+    Stroke="Lavender"
+    Visibility="Hidden"/>
+                        </Grid>
+                    </Grid>
+                    <ControlTemplate.Resources>
+                        <Storyboard x:Key="HoverAnimation">
+                            <ColorAnimation
+                                    Storyboard.TargetName="line1False"
+                                    Storyboard.TargetProperty="(Path.Stroke).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                    Storyboard.TargetName="line2False"
+                                    Storyboard.TargetProperty="(Path.Stroke).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                    Storyboard.TargetName="rect"
+                                    Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                    Storyboard.TargetName="tipFalse1"
+                                    Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                    Storyboard.TargetName="tipFalse2"
+                                    Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                    Storyboard.TargetName="tipTrue1"
+                                    Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                    Storyboard.TargetName="tipTrue2"
+                                    Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                    To="PaleVioletRed"
+                                    Duration="0:0:0.2"/>
+
+                        </Storyboard>
+                        <Storyboard x:Key="HoverAnimationReverse">
+                            <ColorAnimation
+                                Storyboard.TargetName="line1False"
+                                Storyboard.TargetProperty="(Path.Stroke).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="line2False"
+                                Storyboard.TargetProperty="(Path.Stroke).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="rect"
+                                Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="tipFalse1"
+                                Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="tipFalse2"
+                                Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+                            <ColorAnimation
+                                Storyboard.TargetName="tipTrue1"
+                                Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+                                                        <ColorAnimation
+                                Storyboard.TargetName="tipTrue2"
+                                Storyboard.TargetProperty="(Polygon.Fill).(SolidColorBrush.Color)"
+                                To="Lavender"
+                                Duration="0:0:0.2"/>
+
+                        </Storyboard>
+                    </ControlTemplate.Resources>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="line1False" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="line1True" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="tipFalse1" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="tipTrue1" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="line2False" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="line2True" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="tipFalse2" Property="Visibility" Value="Hidden"/>
+                            <Setter TargetName="tipTrue2" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Trigger.EnterActions>
+                                <BeginStoryboard Storyboard="{StaticResource HoverAnimation}"/>
+                            </Trigger.EnterActions>
+                            <Trigger.ExitActions>
+                                <BeginStoryboard Storyboard="{StaticResource HoverAnimationReverse}"/>
+                            </Trigger.ExitActions>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+</ResourceDictionary>

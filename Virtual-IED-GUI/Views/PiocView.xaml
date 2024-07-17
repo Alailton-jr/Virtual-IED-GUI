@@ -1,0 +1,173 @@
+﻿<UserControl x:Class="Virtual_IED_GUI.Views.PiocView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Virtual_IED_GUI.Views"
+             xmlns:custom="clr-namespace:Virtual_IED_GUI.Controls"
+             xmlns:oxy="http://oxyplot.org/wpf"
+             xmlns:controls="clr-namespace:Virtual_IED_GUI.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Border
+    Background="{StaticResource DefaultBackgroundBrushLight}"
+    CornerRadius="8">
+        <Grid Margin="60 10 60 0"
+          Height="auto"
+          Width="600">
+
+            <Grid.Resources>
+                <Style TargetType="TextBox">
+                    <Setter Property="Foreground" Value="{StaticResource DefaultForegroundBrush}"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="BorderBrush" Value="{StaticResource DefaultForegroundBrush}"/>
+                    <Setter Property="FontSize" Value="16"></Setter>
+                    <Setter Property="Margin" Value="5 5 0 0"></Setter>
+                </Style>
+
+                <Style TargetType="custom:NumericTextBox">
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="FontSize" Value="16"/>
+                </Style>
+
+            </Grid.Resources>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel
+            Margin="0 0 0 30">
+                <TextBlock Text="PIOC"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource HeaderTextBox}"/>
+                <TextBlock Text="Instantaneous Overcurrent"
+                       HorizontalAlignment="Center"
+                       Style="{StaticResource HeaderTextBox}"/>
+            </StackPanel>
+
+            <Grid Grid.Row="1" Margin="0 0 0 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width ="1.5*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Parameters -->
+                <Grid Grid.Row="0" Grid.Column="0" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Pickup Current -->
+                    <Grid Grid.Row="0" HorizontalAlignment="Stretch" Margin="0 30 0 15">
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Pickup Current" HorizontalAlignment="Left"/>
+
+                        <Grid Grid.Row="1" Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <custom:NumericTextBox Margin="0 0 0 0" 
+                                               HorizontalAlignment="Stretch"
+                                               Grid.Column="0"
+                                               Text="{Binding Pickup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="A" Padding="4"
+                   Background="{StaticResource TextBoxBackground}"
+           Grid.Column="1"/>
+                        </Grid>
+                    </Grid>
+
+
+                    <!-- Time Delay -->
+                    <Grid Grid.Row="1" HorizontalAlignment="Stretch" Margin="0 0 0 15">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Text="Time Delay" HorizontalAlignment="Left"/>
+
+                        <Grid Grid.Row="1" Margin="0 5 0 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <custom:NumericTextBox Margin="0 0 0 0" 
+                               HorizontalAlignment="Stretch"
+                               Grid.Column="0"
+                               Text="{Binding TimeDelay, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Text="s" Padding="4"
+                               Background="{StaticResource TextBoxBackground}"
+                                Grid.Column="1"/>
+                        </Grid>
+                    </Grid>
+
+                </Grid>
+
+                <!-- Plot -->
+                <Grid Grid.Column="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <oxy:PlotView Grid.Row="1" 
+                                      Model="{Binding plotModel}"
+                                      HorizontalAlignment="Stretch"
+                                      VerticalAlignment="Stretch"
+                                      Margin="30 10 10 10"
+                                      Background="Transparent"
+                                      MinHeight="300"
+                                      Foreground="Black"/>
+                    </Grid>
+                </Grid>
+
+            </Grid>
+
+            <Grid Grid.Row="2"
+              Margin="0 20 0 10">
+                <Grid.Resources>
+                    <Style x:Key="GooseTransmitButton" TargetType="Button" BasedOn="{StaticResource defaultButton}">
+                        <Setter Property="FontSize" Value="18"/>
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Width" Value="80"/>
+                        <Setter Property="Height" Value="35"/>
+                    </Style>
+                </Grid.Resources>
+                <UniformGrid Columns="2">
+                    <Button Content="Confirm"
+                        Style="{StaticResource GooseTransmitButton}"/>
+                    <Button Content="Cancel" 
+                        Padding="0 0 0 0"
+                        Style="{StaticResource GooseTransmitButton}"/>
+                </UniformGrid>
+            </Grid>
+
+        </Grid>
+    </Border>
+
+</UserControl>

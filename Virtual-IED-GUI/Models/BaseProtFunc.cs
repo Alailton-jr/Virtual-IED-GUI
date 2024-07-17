@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Virtual_IED_GUI.ViewModels
+namespace Virtual_IED_GUI.Models
 {
-    public class ProtectionViewModel : ViewModelBase
+    public abstract class BaseProtFunc
     {
+
+
 
 
     }

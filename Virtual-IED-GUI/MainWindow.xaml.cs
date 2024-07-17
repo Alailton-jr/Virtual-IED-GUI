@@ -1,6 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Virtual_IED_GUI.ViewModels;
+using ModalControl;
 
 namespace Virtual_IED_GUI
 {
@@ -12,15 +14,17 @@ namespace Virtual_IED_GUI
         public MainWindow()
         {
             InitializeComponent();
-
-
         }
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                this.DragMove();
+                try
+                {
+                    this?.DragMove();
+                }
+                catch { }
             }
 
         }
@@ -44,5 +48,6 @@ namespace Virtual_IED_GUI
                 this.WindowState = WindowState.Normal;
             }
         }
+
     }
 }

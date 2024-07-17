@@ -5,12 +5,33 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/DefaultTheme.xaml"/>
                 <ResourceDictionary Source="Themes/NavegationMenuTheme.xaml"/>
+                <ResourceDictionary Source="Themes/NumericTextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Themes/CustomComboBox.xaml"/>
+                <ResourceDictionary Source="Themes/DefaultButton.xaml"/>
+                <ResourceDictionary Source="Themes/CloseButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/MinimizeButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/MaximizeButtonTheme.xaml"/>
+                <ResourceDictionary Source="Themes/DefaultRadioButtonTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+            
             <BitmapImage x:Key="iec61850_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\iec61850.png"/>
             <BitmapImage x:Key="protection_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\protection.png"/>
             <BitmapImage x:Key="config_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\config.png"/>
             <BitmapImage x:Key="ihm_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\monitoring.png"/>
+
+            <BitmapImage x:Key="minimize_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Minimize.png"/>
+            <BitmapImage x:Key="maximize_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Maximize.png"/>
+            <BitmapImage x:Key="close_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Close.png"/>
+
+
+
+
         </ResourceDictionary>
+
+        
     </Application.Resources>
+
+
 </Application>
