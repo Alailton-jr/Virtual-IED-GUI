@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
 {
-    public class Ied
+    public class IED
     {
 
         // Three Main Attributes: 
@@ -24,21 +24,21 @@ namespace Virtual_IED_GUI.Models
         // 5. Methods to Reset Configuration
 
 
-        public required string IedIpAddress { get; set; }
-        public required int IedPortNumber { get; set; }
+        public string? IedIpAddress { get; set; }
+        public int? IedPortNumber { get; set; }
 
         private Protections prot { get; set; }
         private Iec61850 iec { get; set; }
         private SocketCom socket { get; set; }
+        public SclData data { get; set; }
 
 
-        public Ied(string ip, int port)
+        public IED()
         {
-            this.IedIpAddress = ip;
-            this.IedPortNumber = port;
             this.prot = new Protections();
             this.iec = new Iec61850();
             this.socket = new SocketCom();
+            this.data = new SclData();
         }
 
         public bool loadConfiguration(Stream config)

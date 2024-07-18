@@ -8,7 +8,9 @@ namespace Virtual_IED_GUI.ViewModels
 {
     public class ProtectionViewModel : ViewModelBase
     {
-
-
+        public override void Dispose()
+        {
+            base.Dispose();
+        }
     }
 }

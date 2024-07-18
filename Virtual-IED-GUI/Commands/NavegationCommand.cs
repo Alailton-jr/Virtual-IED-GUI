@@ -11,17 +11,17 @@ namespace Virtual_IED_GUI.Commands
     class NavegationCommand : CommandBase
     {
         private readonly NavegationStore _navegationStore;
-        private ViewModelBase _newViewModel { get; }
+        private Func<ViewModelBase> _createViewModel;
 
-        public NavegationCommand(NavegationStore navegationStore, ViewModelBase newViewModel)
+        public NavegationCommand(NavegationStore navegationStore, Func<ViewModelBase> createViewModel)
         {
             _navegationStore = navegationStore;
-            _newViewModel = newViewModel;
+            _createViewModel = createViewModel;
         }
 
         public override void Execute(object? parameter)
         {
-            _navegationStore.CurrentViewModel = _newViewModel;
+            _navegationStore.CurrentViewModel = _createViewModel();
 
         }
 

@@ -64,7 +64,7 @@
                                         DisplayMemberBinding="{Binding Name}"/>
                             <GridViewColumn Header="Description" 
                                         DisplayMemberBinding="{Binding Description}"
-                                        Width="auto"/>
+                                        Width="Auto"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -77,17 +77,18 @@
                 Margin="15 0 15 0"
                 Background="{StaticResource DefaultBackgroundBrushDark}">
 
-                <ListView Margin="10" ItemsSource="{Binding DataSetI}"
+                <ListView Margin="10" ItemsSource="{Binding DataSetItens}"
                           Foreground="Lavender" Background="Transparent"
-                          SelectedIndex="{Binding CurrentSelectedItem}">
+                          SelectedIndex="{Binding CurrentSelectedItem}"
+                          x:Name="DetailListView">
                     <ListView.View>
-                        <GridView>
+                        <GridView x:Name="DetailGridView"
+                                  >
+                            <!-- DisplayMemberBinding="{Binding MacAddress}" -->
                             <GridViewColumn Header="FC" 
-                                            Width="80" 
-                                            DisplayMemberBinding="{Binding Name}"/>
+                                            Width="50"/>
                             <GridViewColumn Header="Data" 
-                                            DisplayMemberBinding="{Binding MacAddress}"
-                                            Width="120"/>
+                                            Width="Auto"/>
                         </GridView>
                     </ListView.View>
                 </ListView>
@@ -99,24 +100,16 @@
         <StackPanel Grid.Row="1"
                 Orientation="Horizontal"
                 Margin="25 5 0 5">
-            <StackPanel.Resources>
-                <Style x:Key="GooseTransmitButton" TargetType="Button" BasedOn="{StaticResource defaultButton}">
-                    <Setter Property="FontSize" Value="18"/>
-                    <Setter Property="Margin" Value="5"/>
-                    <Setter Property="Width" Value="80"/>
-                    <Setter Property="Height" Value="30"/>
-                </Style>
-            </StackPanel.Resources>
             <Button Content="New"
                 Margin="0 0 0 0"
-                Style="{StaticResource GooseTransmitButton}"
+                Style="{StaticResource DefaultButton}"
                 Command="{Binding AddDataSet}"/>
-            <Button Content="Edit"
+            <Button Content="Submit"
                 Margin="10 0 0 0"
-                Style="{StaticResource GooseTransmitButton}"/>
+                Style="{StaticResource DefaultButton}"/>
             <Button Content="Delete"
                 Margin="10 0 0 0"
-                Style="{StaticResource GooseTransmitButton}"/>
+                Style="{StaticResource DefaultButton}"/>
 
         </StackPanel>
 

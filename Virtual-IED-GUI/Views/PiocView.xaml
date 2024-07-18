@@ -150,20 +150,12 @@
 
             <Grid Grid.Row="2"
               Margin="0 20 0 10">
-                <Grid.Resources>
-                    <Style x:Key="GooseTransmitButton" TargetType="Button" BasedOn="{StaticResource defaultButton}">
-                        <Setter Property="FontSize" Value="18"/>
-                        <Setter Property="Margin" Value="5"/>
-                        <Setter Property="Width" Value="80"/>
-                        <Setter Property="Height" Value="35"/>
-                    </Style>
-                </Grid.Resources>
                 <UniformGrid Columns="2">
                     <Button Content="Confirm"
-                        Style="{StaticResource GooseTransmitButton}"/>
+                        Style="{StaticResource DefaultButton}"/>
                     <Button Content="Cancel" 
                         Padding="0 0 0 0"
-                        Style="{StaticResource GooseTransmitButton}"/>
+                        Style="{StaticResource DefaultButton}"/>
                 </UniformGrid>
             </Grid>
 

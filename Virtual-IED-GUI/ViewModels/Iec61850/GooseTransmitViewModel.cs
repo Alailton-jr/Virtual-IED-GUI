@@ -6,9 +6,9 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Virtual_IED_GUI.ViewModels
+namespace Virtual_IED_GUI.ViewModels.Iec61850
 {
-    public class GooseTransmitViewModel:ViewModelBase
+    public class GooseTransmitViewModel : ViewModelBase
     {
 
         public ObservableCollection<GooseTransmitInfo> GooseInfo { get; set; }
@@ -52,8 +52,6 @@ namespace Virtual_IED_GUI.ViewModels
         public string vLANPriority => GooseInfo[CurrentSelectedItem].vLANPriority;
         public string MacAddress => GooseInfo[CurrentSelectedItem].MacAddress;
 
-
-
         public class GooseTransmitInfo
         {
             public string Name { get; set; }
@@ -64,6 +62,11 @@ namespace Virtual_IED_GUI.ViewModels
             public string AppID { get; set; }
             public string vLANID { get; set; }
             public string vLANPriority { get; set; }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
         }
 
     }

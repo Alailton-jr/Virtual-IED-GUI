@@ -3,28 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Virtual_IED_GUI.Stores;
 using Virtual_IED_GUI.ViewModels;
 
-namespace Virtual_IED_GUI.Commands
+namespace Virtual_IED_GUI.Commands.IecDataSet
 {
-    public class AddDataSetCommand : CommandBase
+    internal class EditDataSetCommand: CommandBase
     {
-
         private readonly ModalNavegationStore _modalNavegationStore;
-        private ViewModelBase _newViewModel { get; }
+        private Func<ViewModelBase> _createModalView { get; }
 
 
-        public AddDataSetCommand(ModalNavegationStore modalNavegationStore, ViewModelBase newViewModel)
+        public EditDataSetCommand(ModalNavegationStore modalNavegationStore, Func<ViewModelBase> createModalView)
         {
             _modalNavegationStore = modalNavegationStore;
-            _newViewModel = newViewModel;
+            _createModalView = createModalView;
         }
 
         public override void Execute(object? parameter)
         {
-            _modalNavegationStore.OpenModal(_newViewModel);
+            _modalNavegationStore.OpenModal(_createModalView());
         }
     }
 }

@@ -1,200 +1,334 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using Virtual_IED_GUI.Components;
 using static Virtual_IED_GUI.Models.SCLClass;
 
 namespace Virtual_IED_GUI.Models
 {
-    public class Iec61850
+    public class SclData
     {
+        public SCL scl { get; } = new();
 
+        // Header Parameters
+        public string Revision { get; set; }
 
+        // Communication Parameters
+        public string subNetworkName { get; set; }
+        public BitRateEnum BitRate { get; set; }
+        public string IedName { get; set; }
+        public string ApName { get; set; }
 
-        public class IedData
+        //IED Parameters
+        public string IedDesc { get; set; }
+
+        public SclData()
         {
-            public SCL scl { get; } = new();
+            CreateDefaultSCL();
+        }
 
-            // Header Parameters
-            public string Revision { get; set; }
 
-            // Communication Parameters
-            public string subNetworkName { get; set; }
-            public BitRateEnum BitRate { get; set; }
-            public string IedName { get; set; }
-            public string ApName { get; set; }
+        private ObservableCollection<TreeNode> GetDaTypeTreeNode(string daTypeID, TreeNode parent)
+        {
+            ObservableCollection<TreeNode> daTypeTree = new ObservableCollection<TreeNode>();
+            tDAType[] DaTypeList = scl.DataTypeTemplates.DAType;
 
-            //IED Parameters
-            public string IedDesc { get; set; }
-
-            public IedData()
+            foreach (tDAType daType in DaTypeList)
             {
-                CreateDefaultSCL();
-            }
-
-            // Define a enum
-            public enum BitRateEnum
-            {
-                M10,
-                M100,
-                G1,
-                G10
-            }
-
-            public tHeader CreateDefaultHeader()
-            {
-                var header = new tHeader()
+                if (daType.id == daTypeID)
                 {
-                    id = "Virtual IED Project",
-                    revision = Revision
-                };
-                return header;
-            }
-
-            public tCommunication CreateDefaultCommunication()
-            {
-                tCommunication communication = new tCommunication();
-
-                tSubNetwork subNetwork = new tSubNetwork() { name = subNetworkName };
-                switch (BitRate)
-                {
-                    case BitRateEnum.G1:
+                    foreach (tBDA item in daType.BDA)
+                    {
+                        TreeNode bdaNode = new TreeNode(item.name, parent);
+                        if (item.type != null)
                         {
-                            subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 1, multiplier = tUnitMultiplierEnum.G};
-                                break;
+                            bdaNode.Children = GetDaTypeTreeNode(item.type, bdaNode);
                         }
-                    case BitRateEnum.G10:
-                        {
-                            subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 10, multiplier = tUnitMultiplierEnum.G };
-                            break;
-                        }
-                    case BitRateEnum.M10:
-                        {
-                            subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 10, multiplier = tUnitMultiplierEnum.M };
-                            break;
-                        }
-                    case BitRateEnum.M100:
-                        {
-                            subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 100, multiplier = tUnitMultiplierEnum.M };
-                            break;
-                        }
+                        daTypeTree.Add(bdaNode);
+                    }
+                    break;
                 }
-
-                tConnectedAP connectedAp = new tConnectedAP();
-
-                subNetwork.ConnectedAP = [connectedAp];
-                communication.SubNetwork = [subNetwork];
-
-                return communication;
             }
 
-            private LN0 createLn0()
+            return daTypeTree;
+        }
+
+        private ObservableCollection<TreeNode> GetDoTypeNodeTree(string doTypeID, TreeNode parent, string fc)
+        {
+            ObservableCollection<TreeNode> doTypeTree = new ObservableCollection<TreeNode>();
+
+            tDOType[] DoTypeList = scl.DataTypeTemplates.DOType;
+
+            foreach (tDOType doType in DoTypeList)
             {
-                LN0 ln0 = new LN0()
+                if (doType.id == doTypeID)
                 {
-                    lnClass = "LLN0",
-                    lnType = "LN0",
-                    inst = null,
-                    DOI = [
-                        new tDOI(){name = "Mod"},
+                    foreach (tUnNaming item in doType.Items)
+                    {
+                        if (item is tDA)
+                        {
+                            var da = item as tDA;
+                            if (da.fc.ToString() == fc)
+                            {
+                                TreeNode daNode = new TreeNode(da.name, parent);
+                                daNode.PropagateHasDataToParents(true);
+                                if (da.type != null && da.bType != tBasicTypeEnum.Enum)
+                                {
+                                    daNode.Children = GetDaTypeTreeNode(da.type, daNode);
+                                }
+                                doTypeTree.Add(daNode);
+                            }
+                        }
+                        else if (item is tSDO)
+                        {
+                            var sdo = item as tSDO;
+                            TreeNode sdoNode = new TreeNode(sdo.name, parent);
+                            sdoNode.Children = GetDoTypeNodeTree(sdo.type, sdoNode, fc);
+
+
+                            doTypeTree.Add(sdoNode);
+                        }
+                    }
+                    break;
+                }
+            }
+            return doTypeTree;
+        }
+        
+        private ObservableCollection<TreeNode> GetLogicalNodeTreeNode(string LnType, TreeNode parent, string fc)
+        {
+            ObservableCollection<TreeNode> logicalNodeTree = new ObservableCollection<TreeNode>();
+
+            var lNodeType = scl.DataTypeTemplates.LNodeType;
+
+            foreach (var lnType in lNodeType)
+            {
+                if (lnType.id == LnType)
+                {
+                    foreach (tDO Do in lnType.DO)
+                    {
+                        TreeNode doNode = new TreeNode(Do.name, parent);
+                        if (Do.type != null)
+                        {
+                            doNode.Children = GetDoTypeNodeTree(Do.type, doNode, fc);
+                        }
+
+                        logicalNodeTree.Add(doNode);
+                    }
+                    break;
+                }
+            }
+
+            return logicalNodeTree;
+        }
+
+        private ObservableCollection<TreeNode> GetLDeviceTreeNode(tLDevice ldevice, TreeNode parent, string fc)
+        {
+            ObservableCollection<TreeNode> ldeviceTree = new ObservableCollection<TreeNode>();
+
+            var lns = ldevice.LN;
+            var ln0 = ldevice.LN0;
+
+            //string displayName = ln0 + ln0.
+            var ln0Node = new TreeNode(ln0.lnClass+ln0.inst, parent);
+            ln0Node.Children = GetLogicalNodeTreeNode(ln0.lnType, ln0Node, fc);
+            ldeviceTree.Add(ln0Node);
+
+            foreach (var ln in lns)
+            {
+                string displayName = ln.prefix + ln.lnClass + ln.inst;
+                TreeNode lnNode = new TreeNode(displayName, parent);
+                lnNode.Children = GetLogicalNodeTreeNode(ln.lnType, lnNode, fc);
+
+                ldeviceTree.Add(lnNode);
+            }
+            return ldeviceTree;
+        }
+        
+        public ObservableCollection<TreeNode> GetTreeNode(string fc)
+        {
+            //TreeNode root = new TreeNode(IedName, null){Children = new ObservableCollection<TreeNode>()};
+            TreeNode root = new TreeNode("vIED", null) { Children = new ObservableCollection<TreeNode>() };
+            // ROOT -> LD -> DO -> DA
+            var Ldevices = ((tServer)(scl.IED[0].AccessPoint[0].Items[0])).LDevice;
+
+            for (int i = 0; i < Ldevices.Length; i++)
+            {
+                TreeNode ld = new TreeNode(Ldevices[i].inst, root);
+                ld.Children = GetLDeviceTreeNode(Ldevices[i], ld, fc);
+
+                root.Children.Add(ld);
+            }
+
+
+            return [root];
+        }
+
+        // Define a enum
+        public enum BitRateEnum
+        {
+            M10,
+            M100,
+            G1,
+            G10
+        }
+
+        private tHeader CreateDefaultHeader()
+        {
+            var header = new tHeader()
+            {
+                id = "Virtual IED Project",
+                revision = Revision
+            };
+            return header;
+        }
+
+        private tCommunication CreateDefaultCommunication()
+        {
+            tCommunication communication = new tCommunication();
+
+            tSubNetwork subNetwork = new tSubNetwork() { name = subNetworkName };
+            switch (BitRate)
+            {
+                case BitRateEnum.G1:
+                    {
+                        subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 1, multiplier = tUnitMultiplierEnum.G };
+                        break;
+                    }
+                case BitRateEnum.G10:
+                    {
+                        subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 10, multiplier = tUnitMultiplierEnum.G };
+                        break;
+                    }
+                case BitRateEnum.M10:
+                    {
+                        subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 10, multiplier = tUnitMultiplierEnum.M };
+                        break;
+                    }
+                case BitRateEnum.M100:
+                    {
+                        subNetwork.BitRate = new tBitRateInMbPerSec() { Value = 100, multiplier = tUnitMultiplierEnum.M };
+                        break;
+                    }
+            }
+
+            tConnectedAP connectedAp = new tConnectedAP();
+            connectedAp.apName = ApName;
+            connectedAp.iedName = IedName;
+
+            subNetwork.ConnectedAP = [connectedAp];
+            communication.SubNetwork = [subNetwork];
+
+            return communication;
+        }
+
+        private LN0 createLn0()
+        {
+            LN0 ln0 = new LN0()
+            {
+                lnClass = "LLN0",
+                lnType = "LN0",
+                inst = null,
+                DOI = [
+                    new tDOI(){name = "Mod"},
                         new tDOI(){name = "Beh"},
                         new tDOI(){name = "Health"},
                         new tDOI(){name = "NamPlt"}
-                    ]
-                };
-                return ln0;
-            }
+                ]
+            };
+            return ln0;
+        }
 
-
-            public tIED CreateDefaultIed()
+        private tIED CreateDefaultIed()
+        {
+            var ied = new tIED()
             {
-                var ied = new tIED()
-                {
-                    name = IedName,
-                    desc = IedDesc,
-                    type = "vIED"
-                };
+                name = IedName,
+                desc = IedDesc,
+                type = "vIED"
+            };
 
-                tAccessPoint accessPoint = new tAccessPoint();
-                accessPoint.Services = new tServices()
-                {
-                    DynAssociation = new tServiceWithOptionalMax(),
-                    GetDirectory = new tServiceYesNo(),
-                    GOOSE = new tGOOSEcapabilities(){max = 8},
-                    ConfDataSet = new tServiceForConfDataSet()
-                };
+            tAccessPoint accessPoint = new tAccessPoint();
+            accessPoint.Services = new tServices()
+            {
+                DynAssociation = new tServiceWithOptionalMax(),
+                GetDirectory = new tServiceYesNo(),
+                GOOSE = new tGOOSEcapabilities() { max = 8 },
+                ConfDataSet = new tServiceForConfDataSet()
+            };
 
-                tServer server = new tServer();
+            tServer server = new tServer();
 
-                
 
-                tLN lphd = new tLN()
-                {
-                    lnClass = "LPHD",
-                    lnType = "LPHD1",
-                    inst = "1",
-                    prefix = "DevID",
-                    DOI = [
-                        new tDOI(){name = "PhyNam"},
+
+            tLN lphd = new tLN()
+            {
+                lnClass = "LPHD",
+                lnType = "LPHD1",
+                inst = "1",
+                prefix = "DevID",
+                DOI = [
+                    new tDOI(){name = "PhyNam"},
                         new tDOI(){name = "PhyHealth"},
                         new tDOI(){name = "Proxy"},
                     ]
-                };
+            };
 
-                tLDevice cfg = new tLDevice
-                {
-                    inst = "CFG",
-                    desc = "DataSets",
-                    LN0 = createLn0(),
-                    LN = [lphd]
-                };
-
-                tLDevice pro = new tLDevice
-                {
-                    inst = "PRO",
-                    desc = "Protection Device",
-                    LN0 = createLn0(),
-                    LN = []
-                };
-
-                tLDevice met = new tLDevice
-                {
-                    inst = "MET",
-                    desc = "Measurement Device",
-                    LN0 = createLn0(),
-                    LN = []
-                };
-
-                tLDevice con = new tLDevice
-                {
-                    inst = "CON",
-                    desc = "Control Device",
-                    LN0 = createLn0(),
-                    LN = []
-                };
-
-                server.LDevice = [cfg, pro, met, con];
-                accessPoint.Items = [server];
-                ied.AccessPoint = [accessPoint];
-
-                return ied;
-            }
-
-            public tDataTypeTemplates CreateDataTypeTemplate()
+            tLDevice cfg = new tLDevice
             {
-                tDataTypeTemplates dataTypeTemplates = new tDataTypeTemplates();
+                inst = "CFG",
+                desc = "DataSets",
+                LN0 = createLn0(),
+                LN = [lphd]
+            };
 
-                dataTypeTemplates.LNodeType =
-                [
-                    // LN0
-                    new tLNodeType()
+            tLDevice pro = new tLDevice
+            {
+                inst = "PRO",
+                desc = "Protection Device",
+                LN0 = createLn0(),
+                LN = []
+            };
+
+            tLDevice met = new tLDevice
+            {
+                inst = "MET",
+                desc = "Measurement Device",
+                LN0 = createLn0(),
+                LN = []
+            };
+
+            tLDevice con = new tLDevice
+            {
+                inst = "CON",
+                desc = "Control Device",
+                LN0 = createLn0(),
+                LN = []
+            };
+
+            server.LDevice = [cfg, pro, met, con];
+            accessPoint.Items = [server];
+            ied.AccessPoint = [accessPoint];
+
+            return ied;
+        }
+
+        private tDataTypeTemplates CreateDataTypeTemplate()
+        {
+            tDataTypeTemplates dataTypeTemplates = new tDataTypeTemplates();
+
+            dataTypeTemplates.LNodeType =
+            [
+                // LN0
+                new tLNodeType()
                     {
                         id = "LN0", lnClass = "LLN0",
                         DO = [
                             new tDO(){name = "Mod", type = "modINC"},
-                            new tDO(){name = "Beh", type = "BehINS"},
+                            new tDO(){name = "Beh", type = "behINS"},
                             new tDO(){name = "Health", type = "healthINS"},
                             new tDO(){name = "NamPlt", type = "LPL_LN0"}
                         ]
@@ -281,11 +415,11 @@ namespace Virtual_IED_GUI.Models
                             new tDO(){name = "PF", type = "WYE_4"}
                         ]
                     },
-                ]; 
+                ];
 
-                dataTypeTemplates.DOType =
-                [
-                    new tDOType()
+            dataTypeTemplates.DOType =
+            [
+                new tDOType()
                     {
                         id = "modINC",
                         cdc = tCDCEnum.INC,
@@ -589,11 +723,11 @@ namespace Virtual_IED_GUI.Models
                             new tDA() { name = "ctlModel", bType = tBasicTypeEnum.Enum, type = "ctlModel", fc = tFCEnum.CF }
                         ]
                     }
-                ];
+            ];
 
-                dataTypeTemplates.DAType =
-                [
-                    new tDAType()
+            dataTypeTemplates.DAType =
+            [
+                new tDAType()
                     {
                         id = "Oper_b",
                         BDA =
@@ -641,10 +775,10 @@ namespace Virtual_IED_GUI.Models
                             new tBDA() { name = "ang", bType = tBasicTypeEnum.Struct, type = "AnalogValue_0" }
                         ]
                     }
-                ];
+            ];
 
-                dataTypeTemplates.EnumType = [
-                    new tEnumType()
+            dataTypeTemplates.EnumType = [
+                new tEnumType()
                     {
                         id = "Mod",
                         EnumVal =
@@ -829,128 +963,24 @@ namespace Virtual_IED_GUI.Models
                             new tEnumVal() { ord = 1, Value = "dir-quad-zero" }
                         ]
                     }
-                ];
+            ];
 
-                return dataTypeTemplates;
-            }
-
-            public void CreateDefaultSCL()
-            {
-                // SCL Structure
-                // - Header
-                // - Communication
-                // - IED
-                // - DataTypeTemplates
-
-                scl.Header = CreateDefaultHeader();
-                scl.Communication = CreateDefaultCommunication();
-                scl.IED = [CreateDefaultIed()];
-                scl.DataTypeTemplates = CreateDataTypeTemplate();
-            }
-
-            //private string
-            //public List<LogicalDeviceClass> LogicalDevices { get; } = [];
-
-            //public void LoadDefaultConfig()
-            //{
-            //    LogicalDevices.Clear();
-
-            //    var ln0 = new LogicalNodesClass
-            //    {
-            //        LnType = "LN0",
-            //        Prefix = null,
-            //        LnClass = "LLN0",
-            //        Inst = null
-            //    };
-            //    ln0.AddDataItemRange(["Mod", "Beh", "Health", "NamPlt"]);
-
-            //    //CFG
-            //    AddLogicalDevice(
-            //        inst: "CFG",
-            //        desc: "DataSets",
-            //        logicalNodes: [ln0]
-            //    );
-
-            //    // PRO
-            //    AddLogicalDevice(
-            //         inst:"PRO",
-            //         desc: "Protection Device",
-            //         logicalNodes: [ln0]
-            //    );
-
-
-
-            //    AddLogicalDevice(
-            //        inst: "PRO",
-            //        desc: "Protection Device",
-            //        logicalNodes: [ln0]
-            //    );
-
-
-            //}
-
-            //public void AddLogicalDevice(string inst, string desc, List<LogicalNodesClass> logicalNodes)
-            //{
-            //    LogicalDeviceClass ld = new LogicalDeviceClass
-            //    {
-            //        Inst = inst,
-            //        Desc = desc
-            //    };
-            //    foreach (var ln in logicalNodes)
-            //    {
-            //        ld.LogicalNodes.Add(ln);
-            //    }
-            //    LogicalDevices.Add(ld);
-            //}
-
-
-            //public class LogicalDeviceClass
-            //{
-            //    public required string Inst { get; set; }
-            //    public string? Desc { get; set; }
-            //    public List<LogicalNodesClass> LogicalNodes { get; } = [];
-
-            //    public void AddLogicalNode(string lnType, string prefix, string lnClass, string inst)
-            //    {
-            //        LogicalNodesClass ln = new LogicalNodesClass
-            //        {
-            //            LnType = lnType,
-            //            Prefix = prefix,
-            //            LnClass = lnClass,
-            //            Inst = inst
-            //        };
-            //        LogicalNodes.Add(ln);
-            //    }
-            //}
-
-            //public class LogicalNodesClass
-            //{
-            //    public required string LnType { get; set; }
-            //    public string? Prefix { get; set; }
-            //    public required string LnClass { get; set; }
-            //    public string? Inst { get; set; }
-            //    public List<DataItemClass> DataItems { get; } = [];
-
-            //    public void AddDataItem(string name)
-            //    {
-            //        DataItems.Add(new DataItemClass(name));
-            //    }
-
-            //    public void AddDataItemRange(List<string> names)
-            //    {
-            //        foreach (var name in names)
-            //        {
-            //            AddDataItem(name);
-            //        }
-            //    }
-            //}
-
-            //public class DataItemClass(string name)
-            //{
-            //    public string Name { get; set; } = name;
-            //}
+            return dataTypeTemplates;
         }
 
+        private void CreateDefaultSCL()
+        {
+            // SCL Structure
+            // - Header
+            // - Communication
+            // - IED
+            // - DataTypeTemplates
 
+            scl.Header = CreateDefaultHeader();
+            scl.Communication = CreateDefaultCommunication();
+            scl.IED = [CreateDefaultIed()];
+            scl.DataTypeTemplates = CreateDataTypeTemplate();
+        }
     }
+
 }

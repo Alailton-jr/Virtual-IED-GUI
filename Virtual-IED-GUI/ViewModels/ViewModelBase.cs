@@ -17,10 +17,7 @@ namespace Virtual_IED_GUI.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Dispose()
-        {
-            Dispose();
-        }
+        public virtual void Dispose() {}
 
     }
 }

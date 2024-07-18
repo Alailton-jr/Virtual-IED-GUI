@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Virtual_IED_GUI.Views"
-             xmlns:viewModels="clr-namespace:Virtual_IED_GUI.ViewModels"
+             xmlns:viewModelsIEC="clr-namespace:Virtual_IED_GUI.ViewModels.Iec61850"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Border Background="{StaticResource DefaultBackgroundBrushLight}"
@@ -25,12 +25,19 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
 
+                    <RadioButton Content="Properties"
+                                 HorizontalAlignment="Center"
+                                 Width="150"
+                                 Style="{StaticResource DefaultRadioButtonTheme}"
+                                 Command="{Binding DataSetView}"
+                                 IsChecked="{Binding DataSetViewChecked, Mode=OneWay}"/>
                     <RadioButton Content="DataSets"
                                  HorizontalAlignment="Center"
                                  Width="150"
                                  Style="{StaticResource DefaultRadioButtonTheme}"
                                  Command="{Binding DataSetView}"
-                                 IsChecked="{Binding DataSetViewChecked}"/>
+                                 Margin="40 0 0 0"
+                                 IsChecked="{Binding DataSetViewChecked, Mode=OneWay}"/>
                     <RadioButton Content="GOOSE Receive"
                                  HorizontalAlignment="Center"
                                  Width="150"
@@ -42,7 +49,7 @@
                                  Margin="40 0 0 0"
                                  Style="{StaticResource DefaultRadioButtonTheme}"
                                  Command="{Binding GooseTransmitView}"
-                                 IsChecked="{Binding GooseTransmitChecked}"/>
+                                 IsChecked="{Binding GooseTransmitChecked, Mode=OneWay}"/>
                     <RadioButton Content="Sampled Value"
                                  Margin="40 0 0 0"
                                  Width="150"
@@ -54,15 +61,16 @@
 
             <Grid Grid.Row="1">
                 <Grid.Resources>
-                    <DataTemplate DataType="{x:Type viewModels:GooseTransmitViewModel}">
+                    <DataTemplate DataType="{x:Type viewModelsIEC:GooseTransmitViewModel}">
                         <local:GooseTransmitView/>
                     </DataTemplate>
-                    <DataTemplate DataType="{x:Type viewModels:Iec61850DataSetViewModel}">
+                    <DataTemplate DataType="{x:Type viewModelsIEC:DataSetViewModel}">
                         <local:Iec61850DataSetView/>
                     </DataTemplate>
                 </Grid.Resources>
                 <ContentControl Content="{Binding CurrentView}"/>
             </Grid>
+
 
         </Grid>
     </Border>

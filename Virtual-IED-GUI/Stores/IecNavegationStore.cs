@@ -16,6 +16,7 @@ namespace Virtual_IED_GUI.Stores
             get => _currentViewModel;
             set
             {
+                _currentViewModel?.Dispose();
                 _currentViewModel = value;
                 StateChanged?.Invoke();
             }
