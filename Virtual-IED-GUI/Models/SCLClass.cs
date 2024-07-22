@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
 {
-    public class SCLClass
+    public class SclClass
     {
 
 
@@ -7847,7 +7847,7 @@ namespace Virtual_IED_GUI.Models
             private string lnTypeField;
 
             /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("DataSet")]
+            [System.Xml.Serialization.XmlElementAttribute("MMSDataSet")]
             public tDataSet[] DataSet
             {
                 get

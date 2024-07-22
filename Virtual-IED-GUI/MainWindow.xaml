@@ -90,8 +90,11 @@
                                 <DataTemplate DataType="{x:Type viewModels:PiocViewModel}">
                                     <views:PiocView/>
                                 </DataTemplate>
-                                <DataTemplate DataType="{x:Type viewModelsIec61850:EditDataSetViewModel}">
-                                    <viewsIec61850:EditDataSetView/>
+                                <DataTemplate DataType="{x:Type viewModelsIec61850:ConfigDataSetViewModel}">
+                                    <viewsIec61850:ConfigDataSetView/>
+                                </DataTemplate>
+                                <DataTemplate DataType="{x:Type viewModelsIec61850:ConfigGooseSenderViewModel}">
+                                    <viewsIec61850:ConfigGooseSenderView/>
                                 </DataTemplate>
                             </ContentControl.Resources>
 
@@ -132,7 +135,9 @@
                                     <views:PiocView/>
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type viewModels:Iec61850ViewModel}">
-                                    <views:Iec61850View/>
+                                    <views:Iec61850View 
+                                        VerticalAlignment="Stretch"
+                                        HorizontalAlignment="Stretch"/>
                                 </DataTemplate>
                             </ContentControl.Resources>
                         </ContentControl>

@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Virtual_IED_GUI.Views
+namespace Virtual_IED_GUI.Views.Iec61850
 {
     /// <summary>
-    /// Interaction logic for GooseTransmitView.xaml
+    /// Interaction logic for ConfigGooseSenderViewModel.xaml
     /// </summary>
-    public partial class GooseTransmitView : UserControl
+    public partial class ConfigGooseSenderView : UserControl
     {
-        public GooseTransmitView()
+        public ConfigGooseSenderView()
         {
             InitializeComponent();
         }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
 {
+    [Serializable]
     public class SocketCom
     {
         // This class is used to communicate with the IED using sockets

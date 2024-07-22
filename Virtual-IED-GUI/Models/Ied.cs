@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
 {
+    [Serializable]
     public class IED
     {
 
@@ -41,6 +42,11 @@ namespace Virtual_IED_GUI.Models
             this.data = new SclData();
         }
 
+        public void load()
+        {
+
+        }
+
         public bool loadConfiguration(Stream config)
         {
             // Load Configuration from File
@@ -59,7 +65,9 @@ namespace Virtual_IED_GUI.Models
         }
 
 
+        public void Load(IED appDataIed)
+        {
 
-
+        }
     }
 }

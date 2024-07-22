@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
 {
+    [Serializable]
     public class Protections
     {
+
+        public Protections()
+        {
+        }
+
         public List<BaseProtFunc> protList { get; } = new();
 
         public void AddProtection(BaseProtFunc prot)

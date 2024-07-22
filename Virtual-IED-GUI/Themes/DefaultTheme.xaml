@@ -9,11 +9,11 @@
     <!-- Text Box Colors -->
     <SolidColorBrush x:Key="TextBoxFocused" Color="#012239" />
     <SolidColorBrush x:Key="TextBoxHover" Color="DarkSlateGray" />
-    <SolidColorBrush x:Key="TextBoxBackground" Color="Gray" />
+    <SolidColorBrush x:Key="TextBoxBackground" Color="#314556" />
     <SolidColorBrush x:Key="TextBoxForeground" Color="Lavender" />
 
     <!-- Button Colors -->
-    <SolidColorBrush x:Key="ButtonBackground" Color="#016CB4" />
+    <SolidColorBrush x:Key="ButtonBackground" Color="#044378" />
     <SolidColorBrush x:Key="ButtonForeground" Color="Lavender" />
     <SolidColorBrush x:Key="ButtonHover" Color="#005F8C" />
     <SolidColorBrush x:Key="ButtonPressed" Color="#012239" />

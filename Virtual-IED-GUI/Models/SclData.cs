@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.DirectoryServices;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Virtual_IED_GUI.Components;
-using static Virtual_IED_GUI.Models.SCLClass;
+using System.Xml.Linq;
+using static Virtual_IED_GUI.Models.SclClass;
 
 namespace Virtual_IED_GUI.Models
 {
+    [Serializable]
     public class SclData
     {
         public SCL scl { get; } = new();
@@ -29,11 +31,10 @@ namespace Virtual_IED_GUI.Models
         {
             CreateDefaultSCL();
         }
-
-
-        private ObservableCollection<TreeNode> GetDaTypeTreeNode(string daTypeID, TreeNode parent)
+        
+        private ObservableCollection<SCLTreeNode> GetDaTypeTreeNode(string daTypeID, SCLTreeNode parent)
         {
-            ObservableCollection<TreeNode> daTypeTree = new ObservableCollection<TreeNode>();
+            ObservableCollection<SCLTreeNode> daTypeTree = new ObservableCollection<SCLTreeNode>();
             tDAType[] DaTypeList = scl.DataTypeTemplates.DAType;
 
             foreach (tDAType daType in DaTypeList)
@@ -42,7 +43,10 @@ namespace Virtual_IED_GUI.Models
                 {
                     foreach (tBDA item in daType.BDA)
                     {
-                        TreeNode bdaNode = new TreeNode(item.name, parent);
+                        SCLTreeNode bdaNode = new SCLTreeNode(item.name, parent);
+                        bdaNode.DaName = bdaNode.DaName == "" ? bdaNode.DaName = item.name : bdaNode.DaName + "." + item.name;
+                        bdaNode.DataType = item.bType.ToString();
+                        bdaNode.PropagateHasDataToParents(true);
                         if (item.type != null)
                         {
                             bdaNode.Children = GetDaTypeTreeNode(item.type, bdaNode);
@@ -56,9 +60,9 @@ namespace Virtual_IED_GUI.Models
             return daTypeTree;
         }
 
-        private ObservableCollection<TreeNode> GetDoTypeNodeTree(string doTypeID, TreeNode parent, string fc)
+        private ObservableCollection<SCLTreeNode> GetDoTypeNodeTree(string doTypeID, SCLTreeNode parent, string fc)
         {
-            ObservableCollection<TreeNode> doTypeTree = new ObservableCollection<TreeNode>();
+            ObservableCollection<SCLTreeNode> doTypeTree = new ObservableCollection<SCLTreeNode>();
 
             tDOType[] DoTypeList = scl.DataTypeTemplates.DOType;
 
@@ -73,7 +77,10 @@ namespace Virtual_IED_GUI.Models
                             var da = item as tDA;
                             if (da.fc.ToString() == fc)
                             {
-                                TreeNode daNode = new TreeNode(da.name, parent);
+                                SCLTreeNode daNode = new SCLTreeNode(da.name, parent);
+                                daNode.DaName = daNode.DaName == "" ? daNode.DaName = da.name : daNode.DaName + "." + da.name; 
+                                daNode.DataType = da.bType.ToString();
+                                daNode.FC = fc;
                                 daNode.PropagateHasDataToParents(true);
                                 if (da.type != null && da.bType != tBasicTypeEnum.Enum)
                                 {
@@ -85,10 +92,9 @@ namespace Virtual_IED_GUI.Models
                         else if (item is tSDO)
                         {
                             var sdo = item as tSDO;
-                            TreeNode sdoNode = new TreeNode(sdo.name, parent);
+                            SCLTreeNode sdoNode = new SCLTreeNode(sdo.name, parent);
+                            sdoNode.DoName += "." + sdo.name;
                             sdoNode.Children = GetDoTypeNodeTree(sdo.type, sdoNode, fc);
-
-
                             doTypeTree.Add(sdoNode);
                         }
                     }
@@ -98,9 +104,9 @@ namespace Virtual_IED_GUI.Models
             return doTypeTree;
         }
         
-        private ObservableCollection<TreeNode> GetLogicalNodeTreeNode(string LnType, TreeNode parent, string fc)
+        private ObservableCollection<SCLTreeNode> GetLogicalNodeTreeNode(string LnType, SCLTreeNode parent, string fc)
         {
-            ObservableCollection<TreeNode> logicalNodeTree = new ObservableCollection<TreeNode>();
+            ObservableCollection<SCLTreeNode> logicalNodeTree = new ObservableCollection<SCLTreeNode>();
 
             var lNodeType = scl.DataTypeTemplates.LNodeType;
 
@@ -110,12 +116,12 @@ namespace Virtual_IED_GUI.Models
                 {
                     foreach (tDO Do in lnType.DO)
                     {
-                        TreeNode doNode = new TreeNode(Do.name, parent);
+                        SCLTreeNode doNode = new SCLTreeNode(Do.name, parent);
+                        doNode.DoName = Do.name;
                         if (Do.type != null)
                         {
                             doNode.Children = GetDoTypeNodeTree(Do.type, doNode, fc);
                         }
-
                         logicalNodeTree.Add(doNode);
                     }
                     break;
@@ -125,41 +131,43 @@ namespace Virtual_IED_GUI.Models
             return logicalNodeTree;
         }
 
-        private ObservableCollection<TreeNode> GetLDeviceTreeNode(tLDevice ldevice, TreeNode parent, string fc)
+        private ObservableCollection<SCLTreeNode> GetLDeviceTreeNode(tLDevice ldevice, SCLTreeNode parent, string fc)
         {
-            ObservableCollection<TreeNode> ldeviceTree = new ObservableCollection<TreeNode>();
+            ObservableCollection<SCLTreeNode> ldeviceTree = new ObservableCollection<SCLTreeNode>();
 
             var lns = ldevice.LN;
             var ln0 = ldevice.LN0;
 
             //string displayName = ln0 + ln0.
-            var ln0Node = new TreeNode(ln0.lnClass+ln0.inst, parent);
+            var ln0Node = new SCLTreeNode(ln0.lnClass+ln0.inst, parent);
+            ln0Node.LnClass = ln0.lnClass;
+            ln0Node.LnInst = ln0.inst;
             ln0Node.Children = GetLogicalNodeTreeNode(ln0.lnType, ln0Node, fc);
             ldeviceTree.Add(ln0Node);
 
             foreach (var ln in lns)
             {
                 string displayName = ln.prefix + ln.lnClass + ln.inst;
-                TreeNode lnNode = new TreeNode(displayName, parent);
+                SCLTreeNode lnNode = new SCLTreeNode(displayName, parent);
+                lnNode.LnClass = ln.lnClass;
+                lnNode.LnInst = ln.inst;
                 lnNode.Children = GetLogicalNodeTreeNode(ln.lnType, lnNode, fc);
-
                 ldeviceTree.Add(lnNode);
             }
             return ldeviceTree;
         }
         
-        public ObservableCollection<TreeNode> GetTreeNode(string fc)
+        public ObservableCollection<SCLTreeNode> GetTreeNode(string fc)
         {
-            //TreeNode root = new TreeNode(IedName, null){Children = new ObservableCollection<TreeNode>()};
-            TreeNode root = new TreeNode("vIED", null) { Children = new ObservableCollection<TreeNode>() };
+            SCLTreeNode root = new SCLTreeNode("vIED", null) { Children = new ObservableCollection<SCLTreeNode>() };
             // ROOT -> LD -> DO -> DA
             var Ldevices = ((tServer)(scl.IED[0].AccessPoint[0].Items[0])).LDevice;
 
             for (int i = 0; i < Ldevices.Length; i++)
             {
-                TreeNode ld = new TreeNode(Ldevices[i].inst, root);
+                SCLTreeNode ld = new SCLTreeNode(Ldevices[i].inst, root);
+                ld.LDInst = Ldevices[i].inst;
                 ld.Children = GetLDeviceTreeNode(Ldevices[i], ld, fc);
-
                 root.Children.Add(ld);
             }
 
@@ -242,6 +250,37 @@ namespace Virtual_IED_GUI.Models
             return ln0;
         }
 
+        private tLN[] CreateDefaultLN_MET()
+        {
+            var LN = new List<tLN>();
+
+            tLN mmxu = new tLN()
+            {
+                lnClass = "MMXU",
+                lnType = "MMXU1",
+                inst = "1",
+                prefix = "",
+                DOI = [
+                    new tDOI(){name = "TotW"},
+                        new tDOI(){name = "TotVAr"},
+                        new tDOI(){name = "TotPF"},
+                        new tDOI(){name = "Hz"},
+                        new tDOI(){name = "PhV"},
+                        new tDOI(){name = "PPV"},
+                        new tDOI(){name = "VSyn"},
+                        new tDOI(){name = "A"},
+                        new tDOI(){name = "W"},
+                        new tDOI(){name = "VAr"},
+                        new tDOI(){name = "PF"}
+                ]
+            };
+
+            LN.Add(mmxu);
+
+
+            return LN.ToArray();
+        }
+
         private tIED CreateDefaultIed()
         {
             var ied = new tIED()
@@ -298,7 +337,7 @@ namespace Virtual_IED_GUI.Models
                 inst = "MET",
                 desc = "Measurement Device",
                 LN0 = createLn0(),
-                LN = []
+                LN = CreateDefaultLN_MET()
             };
 
             tLDevice con = new tLDevice

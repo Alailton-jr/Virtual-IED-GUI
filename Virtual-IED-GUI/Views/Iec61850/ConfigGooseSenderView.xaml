@@ -1,0 +1,148 @@
+﻿<UserControl x:Class="Virtual_IED_GUI.Views.Iec61850.ConfigGooseSenderView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Virtual_IED_GUI.Views.Iec61850"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800"
+             Background="{StaticResource DefaultBackgroundBrushLight}">
+
+    <Border CornerRadius="10"
+            Height="500"
+            Width="800"
+            Background="{StaticResource DefaultBackgroundBrushLight}"
+            Padding="25 0 25 0"
+            HorizontalAlignment="Stretch"
+            x:Name="MainBorder">
+
+        <Grid Background="Transparent"
+              HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Text="GOOSE Sender Config"
+                       HorizontalAlignment="Center"
+                       FontSize="22"
+                       Margin="0 10 0 10"
+                       FontWeight='SemiBold'/>
+
+            <Grid Grid.Row="1" Margin="0 0 0 0"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="StackPanel">
+                        <Setter Property="Margin" Value="0 10 0 0"/>
+                    </Style>
+                </Grid.Resources>
+
+                
+                <StackPanel Grid.Column="0">
+
+                    <StackPanel>
+                        <TextBlock Text="Name"/>
+                        <TextBox Text="{Binding GoData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0 10 0 0">
+                        <TextBlock Text="Description"/>
+                        <TextBox Text="{Binding Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0 10 0 0">
+                        <TextBlock Text="Config Rev"/>
+                        <TextBox Text="{Binding ConfigRev, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel Margin="0 10 0 0">
+                        <TextBlock Text="DataSet"/>
+                        <ComboBox ItemsSource="{Binding DataSetNames}"
+                                  SelectedIndex="{Binding SelectedDataSet}"
+                                  Style="{StaticResource CustomComboBox}"
+                                  Foreground="{StaticResource DefaultForegroundBrush}"
+                                  HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="MultiCast MAC Address"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- Network Config -->
+                <StackPanel Grid.Column="2">
+
+                    <StackPanel>
+                        <TextBlock Text="APP ID"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="vLAN ID"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="vLAN Priority"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Min Time"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                    <StackPanel>
+                        <TextBlock Text="Max Time"/>
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                 Style="{StaticResource NumericTextBoxTheme}"
+                                 Padding="5"/>
+                    </StackPanel>
+
+                </StackPanel>
+
+            </Grid>
+
+
+
+            <Grid Grid.Row="2">
+                <UniformGrid Columns="2">
+                    <Button Content="Confirm"
+                        Style="{StaticResource DefaultButton}"
+                        IsEnabled="{Binding EnableConfirm}"
+                        Command="{Binding SubmitCommand}"/>
+                    <Button Content="Cancel" 
+                        Padding="0 0 0 0"
+                        Style="{StaticResource DefaultButton}"
+                        Command="{Binding CancelCommand, Mode=OneWay}"/>
+                </UniformGrid>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

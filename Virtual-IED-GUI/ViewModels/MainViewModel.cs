@@ -17,6 +17,8 @@ namespace Virtual_IED_GUI.ViewModels
         private readonly NavegationStore _navegationStore;
         private readonly IecNavegationStore _iecNavegationStore;
         private readonly ModalNavegationStore _modalNavegationStore;
+        private readonly MMSDataSetStore _mmsDataSetStore;
+        private readonly GooseSenderStore _gooseSenderStore;
         private readonly IED _ied;
 
         public ViewModelBase ModalCurrentViewModel => _modalNavegationStore.CurrentViewModel;
@@ -30,19 +32,21 @@ namespace Virtual_IED_GUI.ViewModels
         public ViewModelBase CurrentViewModel => _navegationStore.CurrentViewModel;
 
         public MainViewModel(NavegationStore navegationStore, IecNavegationStore iecNavegationStore,
-            ModalNavegationStore modalNavegationStore, IED ied)
+            ModalNavegationStore modalNavegationStore, IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore)
         {
             _navegationStore = navegationStore;
             _iecNavegationStore = iecNavegationStore;
             _modalNavegationStore = modalNavegationStore;
+            _mmsDataSetStore = mmsDataSetStore;
+            _gooseSenderStore = gooseSenderStore;
             _ied = ied;
 
-            PtocViewCommand = new NavegationCommand(_navegationStore, () => new DataSetViewModel(_modalNavegationStore, _ied));
             ProtViewCommand = new NavegationCommand(_navegationStore, () => new ProtectionViewModel());
-            Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(_iecNavegationStore, _modalNavegationStore, _ied));
+            Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(_iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore));
 
             _navegationStore.StateChanged += CurrentViewModelChanged;
             _modalNavegationStore.CurrentViewModelChange += CurrentModalChanged;
+            _gooseSenderStore = gooseSenderStore;
         }
 
         ~MainViewModel()

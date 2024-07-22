@@ -30,7 +30,8 @@
                                  Width="150"
                                  Style="{StaticResource DefaultRadioButtonTheme}"
                                  Command="{Binding DataSetView}"
-                                 IsChecked="{Binding DataSetViewChecked, Mode=OneWay}"/>
+                                 Visibility="Collapsed"
+                                 />
                     <RadioButton Content="DataSets"
                                  HorizontalAlignment="Center"
                                  Width="150"
@@ -42,8 +43,10 @@
                                  HorizontalAlignment="Center"
                                  Width="150"
                                  Margin="40 0 0 0"
-                                 Style="{StaticResource DefaultRadioButtonTheme}"/>
-                    <RadioButton Content="GOOSE Transmit"
+                                 Style="{StaticResource DefaultRadioButtonTheme}"
+                                 Visibility="Collapsed"
+                                 />
+                    <RadioButton Content="GOOSE Sender"
                                  HorizontalAlignment="Center"
                                  Width="150"
                                  Margin="40 0 0 0"
@@ -61,14 +64,16 @@
 
             <Grid Grid.Row="1">
                 <Grid.Resources>
-                    <DataTemplate DataType="{x:Type viewModelsIEC:GooseTransmitViewModel}">
-                        <local:GooseTransmitView/>
+                    <DataTemplate DataType="{x:Type viewModelsIEC:GooseSenderViewModel}">
+                        <local:GooseSenderView/>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type viewModelsIEC:DataSetViewModel}">
                         <local:Iec61850DataSetView/>
                     </DataTemplate>
                 </Grid.Resources>
-                <ContentControl Content="{Binding CurrentView}"/>
+                <ContentControl Content="{Binding CurrentView}"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"/>
             </Grid>
 
 

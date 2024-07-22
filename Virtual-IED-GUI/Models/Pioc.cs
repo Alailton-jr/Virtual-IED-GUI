@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
 {
+
     public class Pioc : BaseProtFunc
     {
-
         public Type type { get; }
         public double pickup { get; set; }
         public double time_dial { get; set; }

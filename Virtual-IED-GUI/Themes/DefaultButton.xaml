@@ -30,6 +30,9 @@
                         <Trigger Property="IsPressed" Value="True">
                             <Setter Property="Background" Value="{StaticResource ButtonPressed}" TargetName="border"/>
                         </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="DarkGray" TargetName="border"/>
+                        </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

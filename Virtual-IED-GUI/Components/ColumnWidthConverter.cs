@@ -8,16 +8,22 @@ using System.Windows.Data;
 
 namespace Virtual_IED_GUI.Components
 {
-    public class LineHeightConverter : IMultiValueConverter
+    public class ColumnWidthConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values.Length == 2 && values[0] is bool isExpanded && values[1] is double actualHeight)
+            if (values[0] is double listViewWidth &&
+                values[1] is double selfWidth)
             {
-                return isExpanded ? actualHeight : 0;
-                return 0;
+                double componentsWidths = 0;
+                for (int i = 2; i < values.Length; i++)
+                {
+                    if (values[i] is double)
+                        componentsWidths += (double)values[i];
+                }
+                double remainingWidth = listViewWidth - componentsWidths - 10;
+                return remainingWidth > 0 ? remainingWidth : 0;
             }
-
             return 0;
         }
 

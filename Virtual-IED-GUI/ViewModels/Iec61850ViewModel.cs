@@ -21,27 +21,32 @@ namespace Virtual_IED_GUI.ViewModels
         private readonly IecNavegationStore _iecNavegationStore;
         private readonly ModalNavegationStore _modalNavegationStore;
         private readonly IED _ied;
+        private readonly MMSDataSetStore _mmsDataSetStore;
+        private readonly GooseSenderStore _gooseSenderStore;
 
         public ViewModelBase CurrentView => _iecNavegationStore.CurrentViewModel;
 
-        public bool GooseTransmitChecked => CurrentView is GooseTransmitViewModel;
+        public bool GooseTransmitChecked => CurrentView is GooseSenderViewModel;
         public bool DataSetViewChecked => CurrentView is DataSetViewModel;
 
         public ICommand GooseTransmitView { get; }
         public ICommand DataSetView { get; }
 
         public Iec61850ViewModel(IecNavegationStore iecNavegationStore, ModalNavegationStore modalNavegationStore,
-            IED ied)
+            IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore)
         {
             _iecNavegationStore = iecNavegationStore;
             _modalNavegationStore = modalNavegationStore;
-            this._ied = ied;
+            _mmsDataSetStore = mmsDataSetStore;
+            _gooseSenderStore = gooseSenderStore;
+            _ied = ied;
 
-            GooseTransmitView = new IecNavegationCommand(_iecNavegationStore, () => new GooseTransmitViewModel());
-            DataSetView = new IecNavegationCommand(_iecNavegationStore, () => new DataSetViewModel(_modalNavegationStore, _ied));
+            GooseTransmitView = new IecNavegationCommand(_iecNavegationStore, () => new GooseSenderViewModel(_gooseSenderStore, _modalNavegationStore, _mmsDataSetStore));
+
+            DataSetView = new IecNavegationCommand(_iecNavegationStore, () => new DataSetViewModel(_modalNavegationStore, _ied, this._mmsDataSetStore));
 
             _iecNavegationStore.StateChanged += IecViewModelChanged;
-            DataSetView.Execute(null);
+            GooseTransmitView.Execute(null);
         }
 
         private void IecViewModelChanged()

@@ -4,8 +4,6 @@
     <Style BasedOn="{StaticResource {x:Type ComboBox}}"
            TargetType="{x:Type ComboBox}"
            x:Key="CustomComboBox">
-        <Setter Property="Background" Value="LightGray"/>
-        <Setter Property="Foreground" Value="Black"/>
         <Setter Property="BorderBrush" Value="Gray"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="10"/>
