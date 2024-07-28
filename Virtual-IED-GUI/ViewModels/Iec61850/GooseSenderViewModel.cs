@@ -24,6 +24,8 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
             new ObservableCollection<GooseData>(_gooseSenderStore.GooseDataList);
 
         public ICommand AddGooseSender { get; set; }
+        public ICommand EditGooseSender { get; set; }
+        public ICommand RemoveGooseSender { get; set; }
 
         private int _currentSelectedItem;
         public int CurrentSelectedItem
@@ -31,11 +33,10 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
             get => _currentSelectedItem;
             set
             {
-
                 _currentSelectedItem = value;
                 if (_currentSelectedItem >= 0 && _currentSelectedItem < GooseDataList.Count)
                 {
-                    SelectedGooseData = GooseDataList[_currentSelectedItem];
+                    _gooseSenderStore.SelectedGooseData = GooseDataList[_currentSelectedItem];
                     OnPropertyChanged(nameof(CurrentSelectedItem));
                     OnPropertyChanged(nameof(Name));
                     OnPropertyChanged(nameof(Description));
@@ -45,17 +46,20 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
                     OnPropertyChanged(nameof(AppId));
                     OnPropertyChanged(nameof(Vlanid));
                     OnPropertyChanged(nameof(VlanPriority));
+                    OnPropertyChanged(nameof(EnableEdit));
                 }
             }
         }
 
-        public GooseData? SelectedGooseData { get; set; }
+
+        public bool EnableEdit => CurrentSelectedItem >= 0;
+        public GooseData? SelectedGooseData => _gooseSenderStore.SelectedGooseData;
 
         public string Name => SelectedGooseData?.Name ?? "";
         public string Description => SelectedGooseData?.Description ?? "";
         public string DataSet => SelectedGooseData?.DataSet ?? "";
         public string LogicalDevice => SelectedGooseData?.LDevice ?? "";
-        public string AppId => SelectedGooseData?.appID.ToString() ?? "";
+        public string AppId => SelectedGooseData?.AppID.ToString() ?? "";
         public string Vlanid => SelectedGooseData?.VLanID.ToString() ?? "";
         public string VlanPriority => SelectedGooseData?.VLanPriority.ToString() ?? "";
         public string MacAddress => SelectedGooseData?.MacAddress ?? "";
@@ -71,11 +75,28 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
                 modalNavegationStore,
                 () => new ConfigGooseSenderViewModel(_gooseSenderStore, _modalNavegationStore, _mmsDataSetStore)
             );
+
+            EditGooseSender = new OpenGooseSenderConfigCommand(
+                               _gooseSenderStore,
+                                modalNavegationStore,
+                () => new ConfigGooseSenderViewModel(_gooseSenderStore, _modalNavegationStore, _mmsDataSetStore, SelectedGooseData)
+            );
+
+            RemoveGooseSender = new RemoveGooseSenderCommand(_gooseSenderStore);
+
+            _gooseSenderStore.GooseListChanged += GooseListChanged;
+            CurrentSelectedItem = -1;
+        }
+
+        private void GooseListChanged()
+        {
+            OnPropertyChanged(nameof(GooseDataList));
         }
 
 
         public override void Dispose()
         {
+            if (_gooseSenderStore.GooseListChanged != null) _gooseSenderStore.GooseListChanged -= GooseListChanged;
             base.Dispose();
         }
 

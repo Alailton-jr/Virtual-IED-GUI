@@ -76,22 +76,32 @@ namespace Virtual_IED_GUI
             }
         }
 
-        private void LoadAppData()
+        private bool LoadAppData()
         {
             if (File.Exists(vIEDDataPath))
             {
-                var serializer = new XmlSerializer(typeof(vIEDData));
-                using (var reader = new StreamReader(vIEDDataPath))
+                try
                 {
-                    var appData = (vIEDData)serializer.Deserialize(reader);
+                    var serializer = new XmlSerializer(typeof(vIEDData));
+                    using (var reader = new StreamReader(vIEDDataPath))
+                    {
+                        var appData = (vIEDData)serializer.Deserialize(reader);
 
-                    // Restore the data to the application stores
-                    _ied.Load(appData.IED);
-                    _mmsDataSetStore.Load(appData.MMSDataSetStore);
-                    _gooseSenderStore.Load(appData.GooseSenderStore);
-                    // Add other stores or necessary data here
+                        // Restore the data to the application stores
+                        _ied.Load(appData.IED);
+                        _mmsDataSetStore.Load(appData.MMSDataSetStore);
+                        _gooseSenderStore.Load(appData.GooseSenderStore);
+                        // Add other stores or necessary data here
+                    }
+
+                    return true;
+                }
+                catch
+                {
+                    return false;
                 }
             }
+            return false;
         }
     }
 

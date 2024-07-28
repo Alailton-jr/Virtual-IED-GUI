@@ -7847,7 +7847,7 @@ namespace Virtual_IED_GUI.Models
             private string lnTypeField;
 
             /// <remarks/>
-            [System.Xml.Serialization.XmlElementAttribute("MMSDataSet")]
+            [System.Xml.Serialization.XmlElementAttribute("DataSet")]
             public tDataSet[] DataSet
             {
                 get
@@ -7963,7 +7963,6 @@ namespace Virtual_IED_GUI.Models
 
             private string instField;
 
-
             public tLN0()
             {
                 this.lnClassField = "LLN0";
@@ -8038,6 +8037,7 @@ namespace Virtual_IED_GUI.Models
                     this.instField = value;
                 }
             }
+
         }
 
         /// <remarks/>

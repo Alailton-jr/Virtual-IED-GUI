@@ -14,7 +14,7 @@ namespace Virtual_IED_GUI.Models
         public string Name { get; set; }
         public string? Description { get; set; }
         public string MacAddress { get; set; }
-        public ushort? appID { get; set; }
+        public ushort? AppID { get; set; }
         public ushort? VLanID { get; set; }
         public byte VLanPriority { get; set; }
         public ushort MinTime { get; set; }

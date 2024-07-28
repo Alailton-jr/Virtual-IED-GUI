@@ -1,18 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using NCalc;
+using Expression = NCalc.Expression;
 
 namespace Virtual_IED_GUI.Controls
 {
@@ -70,8 +60,18 @@ namespace Virtual_IED_GUI.Controls
 
         private double EvaluateExpression(string expression)
         {
-            var dataTable = new DataTable();
-            return Convert.ToDouble(dataTable.Compute(expression, string.Empty));
+            var e = new Expression(expression);
+
+            e.EvaluateFunction += (name, args) =>
+            {
+                if (name == "sqrt")
+                {
+                    args.Result = Math.Sqrt(Convert.ToDouble(args.Parameters[0].Evaluate()));
+                }
+            };
+
+            var result = e.Evaluate();
+            return Convert.ToDouble(result);
         }
 
         private void NumericTextBox_OnKeyDown(object sender, KeyEventArgs e)

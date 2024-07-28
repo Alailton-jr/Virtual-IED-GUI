@@ -21,7 +21,7 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
     {
 
         private readonly ModalNavegationStore _modalNavegationStore;
-        private readonly MMSDataSetStore mmsDataSetStore;
+        private readonly MMSDataSetStore _mmsDataSetStore;
         private readonly IED _ied;
 
 
@@ -128,16 +128,16 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
         public ConfigDataSetViewModel(ModalNavegationStore modalNavegationStore, IED ied, MMSDataSetStore mmsDataSetStore, MMSDataSet? previousDataSet = null)
         {
             _modalNavegationStore = modalNavegationStore;
-            this.mmsDataSetStore = mmsDataSetStore;
+            this._mmsDataSetStore = mmsDataSetStore;
 
             CancelCommand = new CloseModalCommand(_modalNavegationStore);
             if (previousDataSet != null)
             {
-                SubmitCommand = new UpdateDataSetCommand(this, this.mmsDataSetStore, _modalNavegationStore);
+                SubmitCommand = new UpdateDataSetCommand(this, this._mmsDataSetStore, _modalNavegationStore);
             }
             else
             {
-                SubmitCommand = new AddNewDataSetCommand(this, this.mmsDataSetStore, _modalNavegationStore);
+                SubmitCommand = new AddNewDataSetCommand(this, this._mmsDataSetStore, _modalNavegationStore);
             }
 
             _selectedData = new ObservableCollection<SCLTreeNode>();
@@ -178,9 +178,22 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
             }
         }
 
+
+        private void RemoveWrongFC(SCLTreeNode node, string fc)
+        {
+            for (int i = 0; i < node.Children.Count; i++)
+            {
+                RemoveWrongFC(node.Children[i], fc);
+
+                if (node.Children[i].FC != null && node.Children[i].FC != fc)
+                {
+                    node.HasData = false;
+                }
+            }
+        }
         private void LoadSCLData(string fc)
         {
-            IedData = _ied.data.GetTreeNode(fc);
+            IedData = _mmsDataSetStore.GetSclNodeTree(fc);
         }
 
         private void DeleteDataSetItem(object sender)

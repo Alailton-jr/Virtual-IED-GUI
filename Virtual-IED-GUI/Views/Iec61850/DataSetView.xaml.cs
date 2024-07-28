@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Virtual_IED_GUI.Views
+namespace Virtual_IED_GUI.Views.Iec61850
 {
     /// <summary>
     /// Interaction logic for Iec61850DataSetView.xaml
     /// </summary>
-    public partial class Iec61850DataSetView : UserControl
+    public partial class DataSetView : UserControl
     {
-        public Iec61850DataSetView()
+        public DataSetView()
         {
             InitializeComponent();
         }

@@ -10,6 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CoreCLR-NCalc" Version="3.1.253" />
     <PackageReference Include="OxyPlot.Wpf" Version="2.1.2" />
     <PackageReference Include="SimpleModal.WPF" Version="1.0.0" />
   </ItemGroup>

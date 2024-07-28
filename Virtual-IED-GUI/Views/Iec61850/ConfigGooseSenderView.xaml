@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Virtual_IED_GUI.Views.Iec61850"
+             xmlns:custom="clr-namespace:Virtual_IED_GUI.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              Background="{StaticResource DefaultBackgroundBrushLight}">
@@ -45,12 +46,11 @@
                     </Style>
                 </Grid.Resources>
 
-                
                 <StackPanel Grid.Column="0">
 
                     <StackPanel>
                         <TextBlock Text="Name"/>
-                        <TextBox Text="{Binding GoData.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource NumericTextBoxTheme}"
                                  Padding="5"/>
                     </StackPanel>
@@ -72,8 +72,8 @@
                     <StackPanel Margin="0 10 0 0">
                         <TextBlock Text="DataSet"/>
                         <ComboBox ItemsSource="{Binding DataSetNames}"
-                                  SelectedIndex="{Binding SelectedDataSet}"
                                   Style="{StaticResource CustomComboBox}"
+                                  SelectedValue="{Binding DataSet, Mode=TwoWay}"
                                   Foreground="{StaticResource DefaultForegroundBrush}"
                                   HorizontalContentAlignment="Stretch"
                                   HorizontalAlignment="Stretch"/>
@@ -81,7 +81,7 @@
 
                     <StackPanel>
                         <TextBlock Text="MultiCast MAC Address"/>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding MacAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource NumericTextBoxTheme}"
                                  Padding="5"/>
                     </StackPanel>
@@ -92,35 +92,41 @@
 
                     <StackPanel>
                         <TextBlock Text="APP ID"/>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding AppID, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource NumericTextBoxTheme}"
                                  Padding="5"/>
                     </StackPanel>
 
                     <StackPanel>
                         <TextBlock Text="vLAN ID"/>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding VLanID, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"
                                  Style="{StaticResource NumericTextBoxTheme}"
                                  Padding="5"/>
                     </StackPanel>
 
                     <StackPanel>
                         <TextBlock Text="vLAN Priority"/>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 Style="{StaticResource NumericTextBoxTheme}"
-                                 Padding="5"/>
+                        <ComboBox SelectedIndex="5"
+                                  ItemsSource="{Binding VLanPriorityItems, Mode=OneWay}"
+                                  SelectedValue="{Binding VLanPriority, Mode=TwoWay}"
+                                  Style="{StaticResource CustomComboBox}"
+                                  Foreground="{StaticResource DefaultForegroundBrush}"
+                                  HorizontalContentAlignment="Stretch"
+                                  HorizontalAlignment="Stretch"
+                                  Padding="5 0 0 0">
+                        </ComboBox>
                     </StackPanel>
 
                     <StackPanel>
                         <TextBlock Text="Min Time"/>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding MinTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource NumericTextBoxTheme}"
                                  Padding="5"/>
                     </StackPanel>
 
                     <StackPanel>
                         <TextBlock Text="Max Time"/>
-                        <TextBox Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        <TextBox Text="{Binding MaxTime, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  Style="{StaticResource NumericTextBoxTheme}"
                                  Padding="5"/>
                     </StackPanel>

@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.DirectoryServices;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using System.Xml.Serialization;
 using static Virtual_IED_GUI.Models.SclClass;
 
 namespace Virtual_IED_GUI.Models
@@ -1020,6 +1022,11 @@ namespace Virtual_IED_GUI.Models
             scl.IED = [CreateDefaultIed()];
             scl.DataTypeTemplates = CreateDataTypeTemplate();
         }
+
+
+        
+
+
     }
 
 }

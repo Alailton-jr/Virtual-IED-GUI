@@ -42,7 +42,11 @@ namespace Virtual_IED_GUI.ViewModels
             _ied = ied;
 
             ProtViewCommand = new NavegationCommand(_navegationStore, () => new ProtectionViewModel());
+
             Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(_iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore));
+
+            PtocViewCommand = new NavegationCommand(_navegationStore, () => new PtocViewModel());
+
 
             _navegationStore.StateChanged += CurrentViewModelChanged;
             _modalNavegationStore.CurrentViewModelChange += CurrentModalChanged;

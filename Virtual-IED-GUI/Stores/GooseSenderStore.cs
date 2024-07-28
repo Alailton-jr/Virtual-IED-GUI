@@ -39,6 +39,7 @@ namespace Virtual_IED_GUI.Stores
         public GooseSenderStore()
         {
             _gooseDataList = new();
+
         }
 
         public void AddGooseData(GooseData gooseData)
@@ -49,9 +50,10 @@ namespace Virtual_IED_GUI.Stores
 
         public void RemoveGooseData()
         {
-            if (_gooseDataList.Count > 0)
+            // Remove the selected goose
+            if (_selectedGooseData != null)
             {
-                _gooseDataList.RemoveAt(_gooseDataList.Count - 1);
+                _gooseDataList.Remove(_selectedGooseData);
                 GooseListChanged?.Invoke();
             }
         }
@@ -114,12 +116,15 @@ namespace Virtual_IED_GUI.Stores
             GooseData gooseData = new GooseData
             {
                 Name = GenerateNextDefaultName(),
-                Description = "New Goose Data",
-                DataSet = "New DataSet",
-                LDevice = "New LDevice",
-                appID = 4000,
-                VLanID = null,
-                VLanPriority = 0,
+                Description = "GOOSE Data",
+                DataSet = "",
+                LDevice = "CFG",
+                AppID = 4000,
+                VLanID = 256,
+                VLanPriority = 4,
+                MinTime = 100,
+                MaxTime = 2000,
+                ID = Guid.NewGuid(),
                 MacAddress = GenerateNextMacAddress()
             };
             return gooseData;

@@ -17,16 +17,32 @@ namespace Virtual_IED_GUI.Stores
         public List<MMSDataSet> DataSets => _dataSets;
         public MMSDataSet? SelectedDataSet;
 
+        private SclData _sclData = new();
+
+        [NonSerialized]
+        private Dictionary<string, ObservableCollection<SCLTreeNode>> _sclTree = new();
+        [XmlIgnore]
+        public Dictionary<string, ObservableCollection<SCLTreeNode>> SCLTree => _sclTree;
+
         [field: XmlIgnore]
-        public event Action<MMSDataSet> DataSetAdded;
+        public event Action<MMSDataSet>? DataSetAdded;
         [field: XmlIgnore]
-        public event Action<MMSDataSet> DataSetUpdated;
+        public event Action<MMSDataSet>? DataSetUpdated;
         [field: XmlIgnore]
-        public event Action<MMSDataSet> DataSetRemoved;
+        public event Action<MMSDataSet>? DataSetRemoved;
 
         public MMSDataSetStore()
         {
-            _dataSets = new List<MMSDataSet?>();
+            _dataSets = new List<MMSDataSet>();
+        }
+
+        public ObservableCollection<SCLTreeNode> GetSclNodeTree(string fc)
+        {
+            if (!SCLTree.ContainsKey(fc))
+            {
+                SCLTree[fc] = _sclData.GetTreeNode(fc);
+            }
+            return SCLTree[fc];
         }
 
         public void AddDataSet(MMSDataSet? dataSet)
