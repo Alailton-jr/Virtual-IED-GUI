@@ -11,6 +11,11 @@ namespace Virtual_IED_GUI.Stores
     {
         private ViewModelBase _currentViewModel;
 
+        public NavegationStore()
+        {
+            _currentViewModel = null;
+        }
+
         public ViewModelBase CurrentViewModel
         {
             get => _currentViewModel;
@@ -18,10 +23,10 @@ namespace Virtual_IED_GUI.Stores
             {
                 _currentViewModel?.Dispose();
                 _currentViewModel = value;
-                StateChanged?.Invoke();
+                ViewModelChanged?.Invoke();
             }
         }
 
-        public event Action StateChanged;
+        public event Action? ViewModelChanged;
     }
 }

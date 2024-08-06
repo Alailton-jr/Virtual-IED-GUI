@@ -91,6 +91,16 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
         private void GooseListChanged()
         {
             OnPropertyChanged(nameof(GooseDataList));
+            OnPropertyChanged(nameof(CurrentSelectedItem));
+            OnPropertyChanged(nameof(Name));
+            OnPropertyChanged(nameof(Description));
+            OnPropertyChanged(nameof(DataSet));
+            OnPropertyChanged(nameof(MacAddress));
+            OnPropertyChanged(nameof(LogicalDevice));
+            OnPropertyChanged(nameof(AppId));
+            OnPropertyChanged(nameof(Vlanid));
+            OnPropertyChanged(nameof(VlanPriority));
+            OnPropertyChanged(nameof(EnableEdit));
         }
 
 

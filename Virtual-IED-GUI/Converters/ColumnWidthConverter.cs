@@ -27,9 +27,10 @@ namespace Virtual_IED_GUI.Converters
             return 0;
         }
 
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        public object[]? ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             // It's Not used
+            return null;
         }
     }
 }

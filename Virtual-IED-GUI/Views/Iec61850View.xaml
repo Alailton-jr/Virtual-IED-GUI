@@ -15,7 +15,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-
+            
             <Grid Grid.Row="0"
                   HorizontalAlignment="Stretch"
                   VerticalAlignment="Center"
@@ -29,8 +29,8 @@
                                  HorizontalAlignment="Center"
                                  Width="150"
                                  Style="{StaticResource DefaultRadioButtonTheme}"
-                                 Command="{Binding DataSetView}"
-                                 Visibility="Collapsed"
+                                 Command="{Binding GeneralView}"
+                                 Visibility="Visible"
                                  />
                     <RadioButton Content="DataSets"
                                  HorizontalAlignment="Center"
@@ -74,10 +74,14 @@
                     <DataTemplate DataType="{x:Type viewModelsIec:SampledValueViewModel}">
                         <viewsIec:SampledValueView/>
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type viewModelsIec:GeneralViewModel}">
+                        <viewsIec:GeneralView/>
+                    </DataTemplate>
                 </Grid.Resources>
                 <ContentControl Content="{Binding CurrentView}"
                                 VerticalAlignment="Stretch"
                                 HorizontalAlignment="Stretch"/>
+                
             </Grid>
 
 

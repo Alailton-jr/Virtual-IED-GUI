@@ -12,11 +12,36 @@
             <BitmapImage x:Key="protection_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\protection.png"/>
             <BitmapImage x:Key="config_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\config.png"/>
             <BitmapImage x:Key="ihm_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\monitoring.png"/>
-
+            
             <BitmapImage x:Key="minimize_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Minimize.png"/>
             <BitmapImage x:Key="maximize_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Maximize.png"/>
             <BitmapImage x:Key="close_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Close.png"/>
 
+            <!--  At least, I Tried -->
+            <!-- <BitmapImage x:Key="iec61850_icon" UriSource="pack://application:,,,/Resources/iec61850.png"/> -->
+            <!-- <BitmapImage x:Key="protection_icon" UriSource="pack://application:,,,/Resources/protection.png"/> -->
+            <!-- <BitmapImage x:Key="config_icon" UriSource="pack://application:,,,/Resources/config.png"/> -->
+            <!-- <BitmapImage x:Key="ihm_icon" UriSource="pack://application:,,,/Resources/monitoring.png"/> -->
+            <!-- <BitmapImage x:Key="minimize_icon" UriSource="pack://application:,,,/Resources/Minimize.png"/> -->
+            <!-- <BitmapImage x:Key="maximize_icon" UriSource="pack://application:,,,/Resources/Maximize.png"/> -->
+            <!-- <BitmapImage x:Key="close_icon" UriSource="pack://application:,,,/Resources/Close.png"/> -->
+            
+            <!-- <BitmapImage x:Key="iec61850_icon" UriSource="Resources/iec61850.png"/> -->
+            <!-- <BitmapImage x:Key="protection_icon" UriSource="Resources/protection.png"/> -->
+            <!-- <BitmapImage x:Key="config_icon" UriSource="Resources/config.png"/> -->
+            <!-- <BitmapImage x:Key="ihm_icon" UriSource="Resources/monitoring.png"/> -->
+            <!-- <BitmapImage x:Key="minimize_icon" UriSource="Resources/Minimize.png"/> -->
+            <!-- <BitmapImage x:Key="maximize_icon" UriSource="Resources/Maximize.png"/> -->
+            <!-- <BitmapImage x:Key="close_icon" UriSource="Resources/Close.png"/> -->
+            
+            <!-- <BitmapImage x:Key="iec61850_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/iec61850.png"/> -->
+            <!-- <BitmapImage x:Key="protection_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/protection.png"/> -->
+            <!-- <BitmapImage x:Key="config_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/config.png"/> -->
+            <!-- <BitmapImage x:Key="ihm_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/monitoring.png"/> -->
+            <!-- <BitmapImage x:Key="minimize_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/Minimize.png"/> -->
+            <!-- <BitmapImage x:Key="maximize_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/Maximize.png"/> -->
+            <!-- <BitmapImage x:Key="close_icon" UriSource="pack://application:,,,/Virtual_IED_GUI;component/Resources/Close.png"/> -->
+            
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Themes/DefaultTheme.xaml"/>
                 <ResourceDictionary Source="Themes/NavegationMenuTheme.xaml"/>

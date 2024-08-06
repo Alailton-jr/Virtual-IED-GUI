@@ -32,6 +32,8 @@ namespace Virtual_IED_GUI.ViewModels
         public ICommand GooseTransmitView { get; }
         public ICommand DataSetView { get; }
         public ICommand SampledValueView { get; }
+        
+        public ICommand GeneralView { get; }
 
         public Iec61850ViewModel(IecNavegationStore iecNavegationStore, ModalNavegationStore modalNavegationStore,
             IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore)
@@ -47,6 +49,8 @@ namespace Virtual_IED_GUI.ViewModels
             DataSetView = new IecNavegationCommand(_iecNavegationStore, () => new DataSetViewModel(_modalNavegationStore, _ied, this._mmsDataSetStore));
 
             SampledValueView = new IecNavegationCommand(_iecNavegationStore, () => new SampledValueViewModel());
+            
+            GeneralView = new IecNavegationCommand(_iecNavegationStore, () => new GeneralViewModel());
 
             _iecNavegationStore.StateChanged += IecViewModelChanged;
             SampledValueView.Execute(null);

@@ -15,11 +15,7 @@ namespace Virtual_IED_GUI.ViewModels
     public class MainViewModel: ViewModelBase
     {
         private readonly NavegationStore _navegationStore;
-        private readonly IecNavegationStore _iecNavegationStore;
         private readonly ModalNavegationStore _modalNavegationStore;
-        private readonly MMSDataSetStore _mmsDataSetStore;
-        private readonly GooseSenderStore _gooseSenderStore;
-        private readonly IED _ied;
 
         public ViewModelBase ModalCurrentViewModel => _modalNavegationStore.CurrentViewModel;
 
@@ -35,22 +31,17 @@ namespace Virtual_IED_GUI.ViewModels
             ModalNavegationStore modalNavegationStore, IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore)
         {
             _navegationStore = navegationStore;
-            _iecNavegationStore = iecNavegationStore;
             _modalNavegationStore = modalNavegationStore;
-            _mmsDataSetStore = mmsDataSetStore;
-            _gooseSenderStore = gooseSenderStore;
-            _ied = ied;
 
             ProtViewCommand = new NavegationCommand(_navegationStore, () => new ProtectionViewModel());
-
-            Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(_iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore));
-
+            
+            Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(iecNavegationStore, _modalNavegationStore, ied, mmsDataSetStore, gooseSenderStore));
+            
             PtocViewCommand = new NavegationCommand(_navegationStore, () => new PtocViewModel());
 
 
-            _navegationStore.StateChanged += CurrentViewModelChanged;
+            _navegationStore.ViewModelChanged += CurrentViewModelChanged;
             _modalNavegationStore.CurrentViewModelChange += CurrentModalChanged;
-            _gooseSenderStore = gooseSenderStore;
         }
 
         ~MainViewModel()
@@ -60,7 +51,7 @@ namespace Virtual_IED_GUI.ViewModels
 
         public override void Dispose()
         {
-            _navegationStore.StateChanged -= CurrentViewModelChanged;
+            _navegationStore.ViewModelChanged -= CurrentViewModelChanged;
             _modalNavegationStore.CurrentViewModelChange -= CurrentModalChanged;
 
             ModalCurrentViewModel.Dispose();

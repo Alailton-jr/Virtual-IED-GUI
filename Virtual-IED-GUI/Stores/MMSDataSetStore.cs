@@ -25,11 +25,7 @@ namespace Virtual_IED_GUI.Stores
         public Dictionary<string, ObservableCollection<SCLTreeNode>> SCLTree => _sclTree;
 
         [field: XmlIgnore]
-        public event Action<MMSDataSet>? DataSetAdded;
-        [field: XmlIgnore]
-        public event Action<MMSDataSet>? DataSetUpdated;
-        [field: XmlIgnore]
-        public event Action<MMSDataSet>? DataSetRemoved;
+        public event Action<MMSDataSet>? DataSetChanged;
 
         public MMSDataSetStore()
         {
@@ -48,7 +44,7 @@ namespace Virtual_IED_GUI.Stores
         public void AddDataSet(MMSDataSet? dataSet)
         {
             _dataSets.Add(dataSet);
-            DataSetAdded?.Invoke(dataSet);
+            DataSetChanged?.Invoke(dataSet);
         }
 
         public void UpdateDataSet(MMSDataSet mmsDataSet)
@@ -58,7 +54,7 @@ namespace Virtual_IED_GUI.Stores
             existingDataSet.Name = mmsDataSet.Name;
             existingDataSet.Description = mmsDataSet.Description;
             existingDataSet.Data = mmsDataSet.Data;
-            DataSetUpdated?.Invoke(mmsDataSet);
+            DataSetChanged?.Invoke(mmsDataSet);
         }
 
         public void RemoveDataSet()
@@ -67,7 +63,7 @@ namespace Virtual_IED_GUI.Stores
             var dataSet = _dataSets.FirstOrDefault(ds => ds.ID == SelectedDataSet.ID);
             if (dataSet == null) return;
             _dataSets.Remove(dataSet);
-            DataSetRemoved?.Invoke(dataSet);
+            DataSetChanged?.Invoke(dataSet);
         }
 
         public void Load(MMSDataSetStore appDataMmsDataSetStore)
@@ -77,6 +73,7 @@ namespace Virtual_IED_GUI.Stores
             {
                 _dataSets.Add(dataSet);
             }
+            DataSetChanged?.Invoke(null);
         }
     }
 }

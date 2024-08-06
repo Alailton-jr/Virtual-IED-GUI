@@ -19,9 +19,10 @@ namespace Virtual_IED_GUI.Converters
                 return Visibility.Collapsed;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             // It's Not used
+            return null;
         }
     }
 }

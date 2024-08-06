@@ -30,4 +30,34 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Properties\Close.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\communication.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\config.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\dataSet.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\iec61850.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\Maximize.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\Minimize.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\monitoring.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+    <None Update="Properties\protection.png">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </None>
+  </ItemGroup>
+
 </Project>

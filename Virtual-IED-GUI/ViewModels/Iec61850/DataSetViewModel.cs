@@ -67,17 +67,13 @@ namespace Virtual_IED_GUI.ViewModels.Iec61850
             EditDataSet = new OpenDataSetConfigCommand(modalNavegationStore, () => new ConfigDataSetViewModel(_modalNavegationStore, _ied, this.mmsDataSetStore, mmsDataSetStore.SelectedDataSet));
             RemoveDataSet = new RemoveDataSetCommand(this.mmsDataSetStore);
 
-            this.mmsDataSetStore.DataSetAdded += MmsDataSetStoreChanged;
-            this.mmsDataSetStore.DataSetUpdated += MmsDataSetStoreChanged;
-            this.mmsDataSetStore.DataSetRemoved += MmsDataSetStoreChanged;
+            this.mmsDataSetStore.DataSetChanged += MmsDataSetStoreChanged;
             CurrentSelectedItem = -1;
         }
 
         public override void Dispose()
         {
-            mmsDataSetStore.DataSetAdded -= MmsDataSetStoreChanged;
-            mmsDataSetStore.DataSetUpdated -= MmsDataSetStoreChanged;
-            mmsDataSetStore.DataSetRemoved -= MmsDataSetStoreChanged;
+            mmsDataSetStore.DataSetChanged -= MmsDataSetStoreChanged;
             base.Dispose();
         }
 
