@@ -3,6 +3,8 @@ using System.Configuration;
 using System.Data;
 using System.IO;
 using System.Windows;
+using System.Windows.Shapes;
+using System.Xml.Linq;
 using System.Xml.Serialization;
 using Virtual_IED_GUI.Models;
 using Virtual_IED_GUI.Stores;
@@ -36,6 +38,25 @@ namespace Virtual_IED_GUI
 
         protected override void OnStartup(StartupEventArgs e)
         {
+
+            // Test
+
+            string sclPath = @"G:\Meu Drive\Graduação\TCC\Artigos Pesquisa\IEC 61850 Stations\SCL CPFL\Nari - SE_SOUZA_ALT.scd";
+            var serializer = new XmlSerializer(typeof(SCL));
+            try
+            {
+                using var reader = new StreamReader(sclPath);
+                var deserializedData = serializer.Deserialize(reader);
+                if (deserializedData is SCL scl)
+                {
+                    _ = Ied61850Data.ExtractIedFromScl(scl);
+                }
+            }
+            catch
+            {
+            }
+            
+
 
             LoadAppData();
 

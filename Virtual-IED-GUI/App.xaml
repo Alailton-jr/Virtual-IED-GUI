@@ -8,24 +8,39 @@
 
             <converters:ColumnWidthConverter x:Key="ColumnWidthConverter" />
 
+            <BitmapImage x:Key="iec61850_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\iec61850.png"/>
+            <BitmapImage x:Key="protection_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\protection.png"/>
+            <BitmapImage x:Key="config_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\config.png"/>
+            <BitmapImage x:Key="ihm_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\monitoring.png"/>
+
+            <BitmapImage x:Key="minimize_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\Minimize.png"/>
+            <BitmapImage x:Key="maximize_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\Maximize.png"/>
+            <BitmapImage x:Key="close_icon" UriSource="C:\Users\Alailton\Documents\Github\Virtual-IED-GUI\Virtual-IED-GUI\Properties\Close.png"/>
+
+
+            <!--
             <BitmapImage x:Key="iec61850_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\iec61850.png"/>
             <BitmapImage x:Key="protection_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\protection.png"/>
             <BitmapImage x:Key="config_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\config.png"/>
             <BitmapImage x:Key="ihm_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\monitoring.png"/>
-            
+
             <BitmapImage x:Key="minimize_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Minimize.png"/>
             <BitmapImage x:Key="maximize_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Maximize.png"/>
             <BitmapImage x:Key="close_icon" UriSource="C:\Users\alail\OneDrive\Documentos\Github\Virtual-IED-GUI\Virtual-IED-GUI\Resources\Close.png"/>
-
-            <!--  At least, I Tried -->
-            <!-- <BitmapImage x:Key="iec61850_icon" UriSource="pack://application:,,,/Resources/iec61850.png"/> -->
-            <!-- <BitmapImage x:Key="protection_icon" UriSource="pack://application:,,,/Resources/protection.png"/> -->
-            <!-- <BitmapImage x:Key="config_icon" UriSource="pack://application:,,,/Resources/config.png"/> -->
-            <!-- <BitmapImage x:Key="ihm_icon" UriSource="pack://application:,,,/Resources/monitoring.png"/> -->
-            <!-- <BitmapImage x:Key="minimize_icon" UriSource="pack://application:,,,/Resources/Minimize.png"/> -->
-            <!-- <BitmapImage x:Key="maximize_icon" UriSource="pack://application:,,,/Resources/Maximize.png"/> -->
-            <!-- <BitmapImage x:Key="close_icon" UriSource="pack://application:,,,/Resources/Close.png"/> -->
+            -->
             
+            
+            <!-- 
+                <BitmapImage x:Key="iec61850_icon" UriSource="pack://application:,,,/Resources/iec61850.png"/>
+                <BitmapImage x:Key="protection_icon" UriSource="pack://application:,,,/Resources/protection.png"/>
+                <BitmapImage x:Key="config_icon" UriSource="pack://application:,,,/Resources/config.png"/>
+                <BitmapImage x:Key="ihm_icon" UriSource="pack://application:,,,/Resources/monitoring.png"/>
+                <BitmapImage x:Key="minimize_icon" UriSource="pack://application:,,,/Resources/Minimize.png"/>
+                <BitmapImage x:Key="maximize_icon" UriSource="pack://application:,,,/Resources/Maximize.png"/>
+                <BitmapImage x:Key="close_icon" UriSource="pack://application:,,,/Resources/Close.png"/>
+            -->
+            
+            <!--  At least, I Tried -->
             <!-- <BitmapImage x:Key="iec61850_icon" UriSource="Resources/iec61850.png"/> -->
             <!-- <BitmapImage x:Key="protection_icon" UriSource="Resources/protection.png"/> -->
             <!-- <BitmapImage x:Key="config_icon" UriSource="Resources/config.png"/> -->
