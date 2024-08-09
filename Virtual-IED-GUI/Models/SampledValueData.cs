@@ -15,12 +15,15 @@ namespace Virtual_IED_GUI.Models
         public string IEDName { get; set; }
         public string SubNetWorkName { get; set; }
         public string ApName { get; set; }
-        public string LdInst { get; set; }
+        public string LDevice { get; set; }
         public string CbName { get; set; }
         public string MacAddress { get; set; }
-        public string VLanID { get; set; }
-        public string VLanPriority { get; set; }
-        public string AppID { get; set; }
+        public ushort? VLanID { get; set; }
+        public byte VLanPriority { get; set; }
+        public ushort? AppID { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public Guid ID;
 
         public string DatSetName { get; set; }
         public uint ConfRev { get; set; }
@@ -29,7 +32,7 @@ namespace Virtual_IED_GUI.Models
         public string SmvID { get; set; }
         public bool MultiCast { get; set; }
 
-        public List<string> FcdaData = new();
+        public List<MMSData> allData { get; set; }
 
 
         public bool LoadSvFromScl(string? path)

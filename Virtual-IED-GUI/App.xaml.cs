@@ -41,7 +41,7 @@ namespace Virtual_IED_GUI
 
             // Test
 
-            string sclPath = @"G:\Meu Drive\Graduação\TCC\Artigos Pesquisa\IEC 61850 Stations\SCL CPFL\Nari - SE_SOUZA_ALT.scd";
+            string sclPath = @"G:\Meu Drive\Graduação\TCC\Artigos Pesquisa\IEC 61850 Stations\IEC61850 station - Okay.scd";
             var serializer = new XmlSerializer(typeof(SCL));
             try
             {

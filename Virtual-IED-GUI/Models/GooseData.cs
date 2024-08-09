@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Virtual_IED_GUI.Models
@@ -9,7 +10,6 @@ namespace Virtual_IED_GUI.Models
     [Serializable]
     public class GooseData
     {
-
         public string LDevice { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }
@@ -22,6 +22,7 @@ namespace Virtual_IED_GUI.Models
         public uint ConfigRev { get; set; }
         public string DataSet { get; set; }
         public Guid ID;
+        public List<MMSData> allData {get; set;}
 
         public GooseData()
         {
