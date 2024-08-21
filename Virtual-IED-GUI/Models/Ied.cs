@@ -33,7 +33,6 @@ namespace Virtual_IED_GUI.Models
         private SocketCom socket { get; set; }
         public SclData data { get; set; }
 
-
         public IED()
         {
             this.prot = new Protections();

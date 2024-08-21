@@ -71,28 +71,28 @@ namespace Virtual_IED_GUI.Models
                             IEDName = connectedAp.iedName,
                             SubNetWorkName = subNetwork.name,
                             ApName = connectedAp.apName,
-                            LdInst = smv.ldInst,
+                            LDevice = smv.ldInst,
                             CbName = smv.cbName,
                         };
 
-                        foreach (tP item in smv.Address)
-                        {
-                            switch (item.type)
-                            {
-                                case "MAC-Address":
-                                    svData.MacAddress = item.Value;
-                                    break;
-                                case "VLAN-ID":
-                                    svData.VLanID = item.Value;
-                                    break;
-                                case "VLAN-PRIORITY":
-                                    svData.VLanPriority = item.Value;
-                                    break;
-                                case "APPID":
-                                    svData.AppID = item.Value;
-                                    break;
-                            }
-                        }
+                        // foreach (tP item in smv.Address)
+                        // {
+                        //     switch (item.type)
+                        //     {
+                        //         case "MAC-Address":
+                        //             svData.MacAddress = item.Value;
+                        //             break;
+                        //         case "VLAN-ID":
+                        //             svData.VLanID = item.Value;
+                        //             break;
+                        //         case "VLAN-PRIORITY":
+                        //             svData.VLanPriority = item.Value;
+                        //             break;
+                        //         case "APPID":
+                        //             svData.AppID = item.Value;
+                        //             break;
+                        //     }
+                        // }
 
                         var ap = connectedAp;
                         tIED? ied = sclData.IED.FirstOrDefault(x => x.name == ap.iedName);
@@ -100,7 +100,7 @@ namespace Virtual_IED_GUI.Models
                         tLN0? ln0 = accessPoint?.Items
                             .OfType<tServer>() 
                             .SelectMany(server => server.LDevice)
-                            .FirstOrDefault(lDevice => lDevice.inst == svData.LdInst)
+                            .FirstOrDefault(lDevice => lDevice.inst == svData.LDevice)
                             ?.LN0;
                         
                         if (ln0 != null)

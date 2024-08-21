@@ -41,20 +41,29 @@ namespace Virtual_IED_GUI
 
             // Test
 
-            string sclPath = @"G:\Meu Drive\Graduação\TCC\Artigos Pesquisa\IEC 61850 Stations\IEC61850 station - Okay.scd";
+            // string sclPath = @"G:\Meu Drive\Graduação\TCC\Artigos Pesquisa\IEC 61850 Stations\IEC61850 station - Okay.scd";
+            string sclPath = @"C:\Users\alail\OneDrive\Área de Trabalho\SES Station.scd";
             var serializer = new XmlSerializer(typeof(SCL));
+            SCL scl = null;
             try
             {
                 using var reader = new StreamReader(sclPath);
                 var deserializedData = serializer.Deserialize(reader);
-                if (deserializedData is SCL scl)
+                if (deserializedData is SCL scl2)
                 {
-                    _ = Ied61850Data.ExtractIedFromScl(scl);
+                    scl = scl2;
                 }
             }
             catch
             {
+                
             }
+
+            if (scl != null)
+            {
+                _ = Ied61850Data.ExtractIedFromScl(scl);
+            }
+            
             
 
 
