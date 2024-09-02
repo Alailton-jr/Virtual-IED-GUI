@@ -25,7 +25,7 @@
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center">
 
-                    <RadioButton Content="Properties"
+                    <RadioButton Content="General"
                                  HorizontalAlignment="Center"
                                  Width="150"
                                  Style="{StaticResource DefaultRadioButtonTheme}"

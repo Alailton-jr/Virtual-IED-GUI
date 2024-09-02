@@ -16,6 +16,7 @@ namespace Virtual_IED_GUI.ViewModels
     {
         private readonly NavegationStore _navegationStore;
         private readonly ModalNavegationStore _modalNavegationStore;
+    private readonly SCLImportedStore _sclImportedStore;
 
         public ViewModelBase ModalCurrentViewModel => _modalNavegationStore.CurrentViewModel;
 
@@ -28,14 +29,15 @@ namespace Virtual_IED_GUI.ViewModels
         public ViewModelBase CurrentViewModel => _navegationStore.CurrentViewModel;
 
         public MainViewModel(NavegationStore navegationStore, IecNavegationStore iecNavegationStore,
-            ModalNavegationStore modalNavegationStore, IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore)
+            ModalNavegationStore modalNavegationStore, IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore, SCLImportedStore sclImportedStore)
         {
             _navegationStore = navegationStore;
             _modalNavegationStore = modalNavegationStore;
+      _sclImportedStore = sclImportedStore;
 
             ProtViewCommand = new NavegationCommand(_navegationStore, () => new ProtectionViewModel());
             
-            Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(iecNavegationStore, _modalNavegationStore, ied, mmsDataSetStore, gooseSenderStore));
+            Iec61850ViewCommand = new NavegationCommand(_navegationStore, () => new Iec61850ViewModel(iecNavegationStore, _modalNavegationStore, ied, mmsDataSetStore, gooseSenderStore, _sclImportedStore));
             
             PtocViewCommand = new NavegationCommand(_navegationStore, () => new PtocViewModel());
 

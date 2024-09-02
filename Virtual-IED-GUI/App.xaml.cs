@@ -34,6 +34,7 @@ namespace Virtual_IED_GUI
         private readonly ModalNavegationStore _modalNavegationStore = new();
         private readonly MMSDataSetStore _mmsDataSetStore = new();
         private readonly GooseSenderStore _gooseSenderStore = new();
+    private readonly SCLImportedStore _importedSCLStore = new();
         private readonly IED _ied = new();
 
         protected override void OnStartup(StartupEventArgs e)
@@ -70,11 +71,11 @@ namespace Virtual_IED_GUI
             LoadAppData();
 
 
-            _navegationStore.CurrentViewModel = new Iec61850ViewModel(_iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore);
+            _navegationStore.CurrentViewModel = new Iec61850ViewModel(_iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore, _importedSCLStore);
 
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel(_navegationStore, _iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore)
+                DataContext = new MainViewModel(_navegationStore, _iecNavegationStore, _modalNavegationStore, _ied, _mmsDataSetStore, _gooseSenderStore, _importedSCLStore)
             };
             MainWindow.Show();
             base.OnStartup(e);

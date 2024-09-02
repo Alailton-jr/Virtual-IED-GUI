@@ -13,12 +13,10 @@ namespace Virtual_IED_GUI.Stores
         private List<GooseData> ImportedGoose = new();
         private List<MMSDataSet> ImportedSV = new();
 
-        public void AddScl(string path)
+        public void ImportSCL(string path)
         {
 
         }
-
-
 
 
     }

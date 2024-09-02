@@ -23,6 +23,7 @@ namespace Virtual_IED_GUI.ViewModels
         private readonly IED _ied;
         private readonly MMSDataSetStore _mmsDataSetStore;
         private readonly GooseSenderStore _gooseSenderStore;
+    private readonly SCLImportedStore _importedSCLStore;
 
         public ViewModelBase CurrentView => _iecNavegationStore.CurrentViewModel;
 
@@ -36,13 +37,14 @@ namespace Virtual_IED_GUI.ViewModels
         public ICommand GeneralView { get; }
 
         public Iec61850ViewModel(IecNavegationStore iecNavegationStore, ModalNavegationStore modalNavegationStore,
-            IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore)
+            IED ied, MMSDataSetStore mmsDataSetStore, GooseSenderStore gooseSenderStore, SCLImportedStore importedSclStore)
         {
             _iecNavegationStore = iecNavegationStore;
             _modalNavegationStore = modalNavegationStore;
             _mmsDataSetStore = mmsDataSetStore;
             _gooseSenderStore = gooseSenderStore;
             _ied = ied;
+      _importedSCLStore = importedSclStore;
 
             GooseTransmitView = new IecNavegationCommand(_iecNavegationStore, () => new GooseSenderViewModel(_gooseSenderStore, _modalNavegationStore, _mmsDataSetStore));
 
@@ -50,7 +52,7 @@ namespace Virtual_IED_GUI.ViewModels
 
             SampledValueView = new IecNavegationCommand(_iecNavegationStore, () => new SampledValueViewModel());
             
-            GeneralView = new IecNavegationCommand(_iecNavegationStore, () => new GeneralViewModel());
+            GeneralView = new IecNavegationCommand(_iecNavegationStore, () => new GeneralViewModel(_importedSCLStore));
 
             _iecNavegationStore.StateChanged += IecViewModelChanged;
             SampledValueView.Execute(null);

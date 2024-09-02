@@ -70,7 +70,7 @@ namespace Virtual_IED_GUI.Models
       return iedList;
     }
 
-    static List<MMSData> FindDaType(string id, tDataTypeTemplates dataTypesTemp)
+    private static List<MMSData> FindDaType(string id, tDataTypeTemplates dataTypesTemp)
     {
 
       var dataList = new List<MMSData>();
@@ -105,7 +105,7 @@ namespace Virtual_IED_GUI.Models
       return dataList;
     }
 
-    static void FillEnumData(MMSData data, string enumID, tEnumType[] enums)
+    private static void FillEnumData(MMSData data, string enumID, tEnumType[] enums)
     {
       data.EnumData = [];
       var enumType = enums.FirstOrDefault(en => en.id == enumID);
