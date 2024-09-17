@@ -14,6 +14,11 @@ namespace Virtual_IED_GUI.Models
         public string DoName { get; set; }
         public string DaName { get; set; }
 
+
+        public bool IsSubType => DaName.Contains(".");
+
+        public bool HasChildren => StData != null && StData.Count > 0 && !IsSubType;
+
         // If struct
         public List<MMSData> StData;
         // if Enum

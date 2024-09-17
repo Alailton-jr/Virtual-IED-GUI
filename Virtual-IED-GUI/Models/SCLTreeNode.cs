@@ -29,7 +29,6 @@ namespace Virtual_IED_GUI.Models
             set
             {
                 _hasData = value;
-
             }
         }
 

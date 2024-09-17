@@ -6,6 +6,7 @@
              xmlns:local="clr-namespace:Virtual_IED_GUI.Views.Iec61850"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Border Margin="15 0 15 10" Background="{StaticResource DefaultBackgroundBrushDark}"
          CornerRadius="10">
         <Grid Margin="20">
@@ -16,26 +17,59 @@
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Column="0" Margin="10">
-                <TreeView Style="{StaticResource DefaultTreeView}">
-                    <TreeViewItem Header="Sampled Value" IsExpanded="True">
-                        <TreeViewItem Header="IED Name"/>
-                    </TreeViewItem>
+                <TreeView ItemsSource="{Binding IedDataList, Mode=OneWay}"
+                          Style="{StaticResource DefaultTreeView}"
+                          x:Name="TvScl">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding Itens}">
+                            <TextBlock Text="{Binding Name}"/>
+                            <HierarchicalDataTemplate.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Itens}">
+                                    <TextBlock Text="{Binding Name}"/>
+                                </HierarchicalDataTemplate>
+                            </HierarchicalDataTemplate.ItemTemplate>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem" BasedOn="{StaticResource DefaultTreeViewItemStyle}">
+                            <EventSetter Event="MouseLeftButtonDown" Handler="TreeViewItem_MouseLeftButtonDown"/>
+                            <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                            <EventSetter Event="MouseEnter" Handler="TreeViewItem_MouseEnterEventHandler"/>
+                            <EventSetter Event="MouseLeave" Handler="TreeViewItem_MouseLeaveEventHandler"/>
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_MouseLeftButtonDown"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
                 </TreeView>
+
             </Grid>
 
             <Grid Grid.Column="1" Margin="10">
-                <TreeView Style="{StaticResource DefaultTreeView}">
-                    <TreeViewItem Header="Sampled Value" IsExpanded="True">
-                        <TreeViewItem Header="Va"/>
-                        <TreeViewItem Header="Vb"/>
-                        <TreeViewItem Header="Vc"/>
-                        <TreeViewItem Header="Vs"/>
-                        <TreeViewItem Header="Ia"/>
-                        <TreeViewItem Header="Ib"/>
-                        <TreeViewItem Header="Ic"/>
-                        <TreeViewItem Header="In"/>
-                    </TreeViewItem>
+
+                <!--#region
+                <TreeView ItemsSource="{Binding svDataList, Mode=OneWay}"
+                          Style="{StaticResource DefaultTreeView}"
+                          Padding="0 0 10 0"
+                          x:Name="TvScl">
+                    <TreeView.ItemTemplate>
+                        <HierarchicalDataTemplate ItemsSource="{Binding allData}">
+                            <TextBlock Text="{Binding DaName}"
+                               IsHitTestVisible="False"
+                               MouseLeftButtonDown="TreeViewItem_MouseLeftButtonDown"/>
+                        </HierarchicalDataTemplate>
+                    </TreeView.ItemTemplate>
+                    <TreeView.ItemContainerStyle>
+                        <Style TargetType="TreeViewItem" BasedOn="{StaticResource DefaultTreeViewItemStyle}">
+                            <EventSetter Event="MouseLeftButtonDown" Handler="TreeViewItem_MouseLeftButtonDown"/>
+                            <EventSetter Event="MouseLeftButtonUp" Handler="TreeViewItem_MouseLeftButtonUp"/>
+                            <EventSetter Event="MouseEnter" Handler="TreeViewItem_MouseEnterEventHandler"/>
+                            <EventSetter Event="MouseLeave" Handler="TreeViewItem_MouseLeaveEventHandler"/>
+                            <EventSetter Event="PreviewMouseLeftButtonDown" Handler="TreeViewItem_MouseLeftButtonDown"/>
+                        </Style>
+                    </TreeView.ItemContainerStyle>
                 </TreeView>
+                -->
+
             </Grid>
 
         </Grid>

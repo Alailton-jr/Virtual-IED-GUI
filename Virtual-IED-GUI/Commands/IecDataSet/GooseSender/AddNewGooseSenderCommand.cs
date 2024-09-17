@@ -23,7 +23,6 @@ namespace Virtual_IED_GUI.Commands.IecDataSet.GooseSender
 
         public override void Execute(object? parameter)
         {
-
             _gooseSenderStore.AddGooseData(_viewData.GoData);
             _modalNavegationStore.CloseModal();
         }

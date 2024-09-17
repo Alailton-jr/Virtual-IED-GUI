@@ -66,6 +66,8 @@
                          Margin="0 5 0 0"
                          Background="{StaticResource DefaultBackgroundBrushMedium}">
                      
+                     
+                     
                  </Border>
                  
              </Grid>

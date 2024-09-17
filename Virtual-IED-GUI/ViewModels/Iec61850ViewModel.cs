@@ -50,7 +50,7 @@ namespace Virtual_IED_GUI.ViewModels
 
             DataSetView = new IecNavegationCommand(_iecNavegationStore, () => new DataSetViewModel(_modalNavegationStore, _ied, this._mmsDataSetStore));
 
-            SampledValueView = new IecNavegationCommand(_iecNavegationStore, () => new SampledValueViewModel());
+            SampledValueView = new IecNavegationCommand(_iecNavegationStore, () => new SampledValueViewModel(_importedSCLStore));
             
             GeneralView = new IecNavegationCommand(_iecNavegationStore, () => new GeneralViewModel(_importedSCLStore));
 

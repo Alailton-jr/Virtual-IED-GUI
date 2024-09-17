@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using static Virtual_IED_GUI.Models.SclClass;
 using static Virtual_IED_GUI.Models.GooseData;
 using System.Windows.Controls;
+using System.Diagnostics.Eventing.Reader;
 
 namespace Virtual_IED_GUI.Models
 {
@@ -75,7 +76,10 @@ namespace Virtual_IED_GUI.Models
 
       var dataList = new List<MMSData>();
       var daType = dataTypesTemp.DAType.FirstOrDefault(x => x.id == id);
+            if (daType == null)
+            {
 
+            }
       foreach (var bda in daType.BDA)
       {
         MMSData bdaData = new()
@@ -94,8 +98,13 @@ namespace Virtual_IED_GUI.Models
           if (bdaType != null)
           {
             foreach (var bdaBda in bdaType.BDA)
-            {
-              bdaData.StData = FindDaType(bdaBda.type, dataTypesTemp);
+            { 
+                MMSData _bdaData = new()
+                {
+                    DaName = bdaBda.name,
+                    Type = bdaBda.bType.ToString()
+                };
+                            bdaData.StData.Add(_bdaData);
             }
           }
         }
@@ -129,6 +138,10 @@ namespace Virtual_IED_GUI.Models
       string? lnInst = fcda.lnInst;
       tFCEnum fc = fcda.fc;
 
+            fcdaData.DoName = doName;
+            fcdaData.DaName = daName;
+
+
       // Options
       // 1 - DaName and DoName are not empty
       // 2 - DaName is empty
@@ -143,17 +156,34 @@ namespace Virtual_IED_GUI.Models
       var lnType = dataTypesTemp.LNodeType.FirstOrDefault(lnType => lnType.id == ln?.lnType && lnType.lnClass == lnClass);
       if (lnType == null) return null; // If the Logical Node Type is not found, return null
 
+            tDOType doType = null;
       if (doName.Contains("."))
       {
         // Option 4 - DoName has "."
         // TODO: Implement the case where the DoName has a "."
-        throw new NotImplementedException();
-      }
+        //throw new NotImplementedException();
+                string _doName = doName.Split(".")[0];
+                string _sdoName = doName.Split(".")[1];
+                var _doTypeName = lnType.DO.FirstOrDefault(doType => doType.name == _doName).type;
+                var _doType = dataTypesTemp.DOType.FirstOrDefault(doType => doType.id == _doTypeName);
+                foreach (tSDO _sdo in _doType.Items.OfType<tSDO>())
+                {
+                    if (_sdo.name == _sdoName)
+                    {
+                       doType = dataTypesTemp.DOType.FirstOrDefault(doType => doType.id == _sdo.type);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // Using the Logical Node Type, find the Data Object Type
+                tDO? doLnType = lnType.DO.FirstOrDefault(doType => doType.name == doName);
+                doType = dataTypesTemp.DOType.FirstOrDefault(doType => doType.id == doLnType?.type);
+                if (doType == null) return null; // If the DOType is not found, return null
+            }
 
-      // Using the Logical Node Type, find the Data Object Type
-      tDO? doLnType = lnType.DO.FirstOrDefault(doType => doType.name == doName);
-      var doType = dataTypesTemp.DOType.FirstOrDefault(doType => doType.id == doLnType?.type);
-      if (doType == null) return null; // If the DOType is not found, return null
+      
 
       if (String.IsNullOrEmpty(daName))
       {
@@ -195,8 +225,15 @@ namespace Virtual_IED_GUI.Models
             daData.Type = da.bType.ToString();
             if (da.bType == tBasicTypeEnum.Enum)
               FillEnumData(daData, da.type, dataTypesTemp.EnumType);
-            else if (da.bType == tBasicTypeEnum.Struct) 
-              daData.StData = FindDaType(da.type, dataTypesTemp);
+            else if (da.bType == tBasicTypeEnum.Struct)
+                        {
+                            if (da.bType == null)
+                            {
+
+                            }
+                            daData.StData = FindDaType(da.type, dataTypesTemp);
+                        }
+              
 
             fcdaData.StData.Add(daData);
           }
@@ -215,6 +252,10 @@ namespace Virtual_IED_GUI.Models
       if (daType == null) return true;
           
       fcdaData.DaName = daName;
+            if (daType.type == null)
+            {
+
+            }
       fcdaData.StData = FindDaType(daType.type!, dataTypesTemp);
       fcdaData.Type = fcdaData.StData.FirstOrDefault(x => x.DaName == daNameSplit[1])?.Type??"";
       return false;
@@ -310,7 +351,10 @@ namespace Virtual_IED_GUI.Models
           .SelectMany(ap => ap.GSE); // Get all the GSE of the AccessPoint
         var netGse = gseList.FirstOrDefault(_gse => _gse.cbName == gseControl.name);
 
-
+                if (netGse == null)
+                {
+                    continue;
+                }
         // 2 - Get the Network Information
         var macAddress = netGse.Address.FirstOrDefault(_addr => _addr.type == "MAC-Address")?.Value;
         var vLanId = netGse.Address.FirstOrDefault(_addr => _addr.type == "VLAN-ID")?.Value;
